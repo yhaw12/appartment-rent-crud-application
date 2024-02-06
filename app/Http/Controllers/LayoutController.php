@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\View;
 
 class LayoutController extends Controller
 {
-    public function home(Request $request){
-       return View::make('layout');
-    }
+    // public function home(){
+    //    return view('layout');
+    // }
 }

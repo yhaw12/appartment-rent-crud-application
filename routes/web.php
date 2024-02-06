@@ -1,10 +1,9 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LayoutController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\LoginController;
-use Illuminate\Auth\Events\Login;
+use App\Http\Controllers\UserController;
+// use Illuminate\Auth\Events\Login;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +17,11 @@ use Illuminate\Auth\Events\Login;
 */
 
 // GET METHODS
- Route::get('/', [LayoutController::class, 'home']);
- Route::get('/register', [RegisterController::class, 'create']);
- Route::get('/login', [LoginController::class, 'login']);
+ Route::get('/', [DashboardController::class, 'dashboard']);
+ Route::get('/register', [UserController::class, 'create']);
+ Route::get('/login',[UserController::class, 'login']);
+
 
 // POST METHODS
-Route::post('/users', [RegisterController::class, 'store']);
-Route::post('/user', [LoginController::class, 'show']);
+Route::post('/users', [UserController::class, 'store']);
+Route::post('/user',[UserController::class, 'show']);
