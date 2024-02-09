@@ -1,12 +1,12 @@
-<div class="h-screen w-60 flex-auto flex-shrink-0 antialiased bg-gray-50 text-gray-800  border-8">
-    <div class="fixed top-0 left-0 w-64 bg-red-500 h-screen border-r">
-      <div class="flex items-center justify-center h-14 border-b">
-        <div>Sidebar Navigation By iAmine</div>
+<div class=" flex-col flex-auto flex-shrink-0 antialiased bg-gray-800 text-gray-50 border">
+    <div class="fixed flex flex-col top-0 w-64 left-0 bg-gray-400 h-full border-r">
+      <div class="flex items-center justify-center h-52 border-b">
+        <div>ABOAGYE APARTMENT</div>
       </div>
-      <div class="w-52 overflow-y-auto overflow-x-hidden flex-grow border">
-        <ul class=" flex flex-col py-4 space-y-1">
+      <div class="overflow-y-auto overflow-x-hidden flex-grow">
+        <ul class="flex flex-col py-4 space-y-1">
           <li class="px-5">
-            <div class="flex  flex-row items-center h-8">
+            <div class="flex flex-row items-center h-8">
               <div class="text-sm font-light tracking-wide text-gray-500">Menu</div>
             </div>
           </li>

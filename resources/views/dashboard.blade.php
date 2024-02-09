@@ -3,28 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  @vite('resources/css/app.css')
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-  <div class="flex">
+<body class="w-full h-screen mx-10">
+  <div class=" flex w-screen">
     <!-- Sidebar -->
-    <div class="w-1/3">
-      @include('partials.sidebar')
+    <div class=" p-4 border outline">
+      
     </div>
   
-    <div class="w-2/3">
+    <div class="w-full flex-grow  p-4 border outline ">
         <!-- Navbar -->
-        <div class="navbar">
+        <div>
             Dashboard
             @include('partials.NavBar')
         </div>
   
         <!-- Content Area -->
         <div class="content">
+          content
           @yield('content')
         </div>
-        
-      
     </div>
   </div>
 </body>

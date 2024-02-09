@@ -1,17 +1,27 @@
-{{-- <!doctype html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  @vite('resources/css/app.css')
+<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="w-full h-screen px-10 bg-[url('')]">
-  {{-- <header class="w-full h-52 flex items-center justify-between py-8 bg-slate-500">
-    <span class="text-blue">Have an Account </span><h1 class="text-xs">LOGIN</h1>
-  </header> --}}
-  {{-- <main>@yield('content')</main> --}}
-  {{-- <footer class="bg-slate-500"> --}}
-    <!-- Footer content goes here -->
-  {{-- </footer> --}}
-{{-- </body> --}}
-{{-- </html>  --}}
+<body>
+  <div class=" w-full h-screen flex items-center">
+    <!-- Sidebar -->
+    <div>
+      @include('partials.SideBar')
+    </div>
+  
+    <div class="border outline-4">
+        <!-- Navbar -->
+        @include('partials.NavBar')
+  
+        <!-- Content Area -->
+        <div class=" mx-4 my-8">
+          content
+          @yield('content')
+        </div>
+    </div>
+  </div>
+</body>
+</html>

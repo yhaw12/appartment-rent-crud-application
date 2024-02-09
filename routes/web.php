@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LayoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 // use Illuminate\Auth\Events\Login;
@@ -17,7 +18,7 @@ use App\Http\Controllers\UserController;
 */
 
 // GET METHODS
- Route::get('/', [DashboardController::class, 'dashboard']);
+ Route::get('/', [LayoutController::class, 'home']);
  Route::get('/register', [UserController::class, 'create']);
  Route::get('/login',[UserController::class, 'login']);
 
