@@ -1,30 +1,66 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="w-full h-screen mx-10">
-  <div class=" flex w-screen">
-    <!-- Sidebar -->
-    <div class=" p-4 border outline">
-      
-    </div>
-  
-    <div class="w-full flex-grow  p-4 border outline ">
-        <!-- Navbar -->
-        <div>
-            Dashboard
-            @include('partials.NavBar')
+@extends('layout')
+
+@section('content')
+    <!-- Membership Statistics Cards -->
+ <div class="container mx-auto mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <!-- Cards -->
+
+    @foreach ($menus as $menu)
+      <div class="bg-white p-4 rounded shadow">
+        <div class="flex items-center">
+            <div class="{{ $menu['color'] }} w-8 h-8 rounded-full flex items-center justify-center mr-2">
+                <i class="{{ $menu['icon'] }}"></i>
+            </div>
+            <div>
+                <p class="text-gray-600">{{ $menu['name'] }}</p>
+                <p class="text-xl font-semibold">{{ $menu['total'] }}</p>
+            </div>
         </div>
-  
-        <!-- Content Area -->
-        <div class="content">
-          content
-          @yield('content')
-        </div>
-    </div>
+      </div>
+    @endforeach
   </div>
-</body>
-</html>
+  
+
+    <div class="mt-20">    
+        <div class="mt-6">
+            <h2 class="text-xl font-semibold text-gray-700 leading-tight">Users</h2>
+
+
+            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                  <table class="min-w-full leading-normal">
+                    <thead>
+                        <tr>
+                            @foreach ($tableData['headers'] as $header)
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{{ $header }}</th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($tableData['rows'] as $row)
+                            <tr>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['user'] }}</td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['role'] }}</td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['created_at'] }}</td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['status'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                    <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
+                        <span class="text-xs xs:text-sm text-gray-900">Showing 1 to 4 of 50 Entries</span>
+
+                        <div class="inline-flex mt-2 xs:mt-0">
+                            <button class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l">Prev</button>
+                            <button class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+  </div>
+@endsection
+

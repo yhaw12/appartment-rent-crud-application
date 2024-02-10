@@ -59,3 +59,66 @@ INFO [2024-02-06T13:38:08.449Z]: {"page":"/auth/login"}
 INFO [2024-02-06T13:38:08.450Z]: Fully initialized!
 INFO [2024-02-06T13:38:08.453Z]: extension_initialized
 INFO [2024-02-06T13:38:08.453Z]: {"timeToInit":9150}
+INFO [2024-02-10T04:31:04.926Z]: Preparing to initialize extension
+INFO [2024-02-10T04:31:05.931Z]: Registering flag observer
+INFO [2024-02-10T04:31:05.931Z]: Navigating to loading page
+INFO [2024-02-10T04:31:05.931Z]: Navigation
+INFO [2024-02-10T04:31:05.931Z]: {"page":"/loading"}
+INFO [2024-02-10T04:31:05.931Z]: Initializing workspace controller
+INFO [2024-02-10T04:31:05.934Z]: Creating URI handler
+INFO [2024-02-10T04:31:05.934Z]: Getting auth service props
+INFO [2024-02-10T04:31:05.936Z]: Creating auth service
+INFO [2024-02-10T04:31:05.936Z]: Setting network auth service
+INFO [2024-02-10T04:31:05.936Z]: Creating context store
+INFO [2024-02-10T04:31:05.937Z]: Creating engine
+INFO [2024-02-10T04:31:05.937Z]: Creating sql db
+INFO [2024-02-10T04:31:06.160Z]: Creating vector db
+INFO [2024-02-10T04:31:06.161Z]: Creating config manager
+INFO [2024-02-10T04:31:06.163Z]: Get languages
+INFO [2024-02-10T04:31:06.163Z]: Reading ALL files
+INFO [2024-02-10T04:31:07.169Z]: Files: 195
+INFO [2024-02-10T04:31:07.169Z]: Counting languages
+INFO [2024-02-10T04:31:07.171Z]: Sorting languages
+INFO [2024-02-10T04:31:07.171Z]: Get Overview
+INFO [2024-02-10T04:31:07.172Z]: Creating code parser
+INFO [2024-02-10T04:31:07.172Z]: Creating code index
+INFO [2024-02-10T04:31:07.173Z]: Creating graphs
+INFO [2024-02-10T04:31:07.173Z]: Creating tagger
+INFO [2024-02-10T04:31:07.173Z]: Creating semantic
+INFO [2024-02-10T04:31:07.173Z]: Creating keyword
+INFO [2024-02-10T04:31:07.173Z]: Creating file search
+INFO [2024-02-10T04:31:07.173Z]: Initializing engine
+INFO [2024-02-10T04:31:07.339Z]: [CodeTagger.init] Initializing
+INFO [2024-02-10T04:31:07.341Z]: Initializing history service
+INFO [2024-02-10T04:31:07.341Z]: Creating project bot props
+INFO [2024-02-10T04:31:07.341Z]: Creating plan service
+INFO [2024-02-10T04:31:07.341Z]: Creating terms service
+INFO [2024-02-10T04:31:07.341Z]: Creating auth controller
+INFO [2024-02-10T04:31:07.341Z]: Initializing auth controller
+INFO [2024-02-10T04:31:07.343Z]: Checking auth
+INFO [2024-02-10T04:31:07.346Z]: Creating plan controller
+INFO [2024-02-10T04:31:07.347Z]: Initializing plan controller
+ERROR [2024-02-10T04:31:26.044Z]: Failed to initialize plugin in 15 seconds
+ERROR [2024-02-10T04:31:26.045Z]: {"numberOfFiles":11316}
+ERROR [2024-02-10T04:31:33.617Z]: request to https://api.cosine.sh/plan/plans failed, reason: getaddrinfo ENOTFOUND api.cosine.sh
+INFO [2024-02-10T04:31:33.621Z]: Creating status controller
+INFO [2024-02-10T04:31:33.621Z]: Creating chat bot
+INFO [2024-02-10T04:31:33.627Z]: Creating git service
+INFO [2024-02-10T04:31:33.629Z]: Creating user context
+INFO [2024-02-10T04:31:33.629Z]: Creating search controller
+INFO [2024-02-10T04:31:33.630Z]: Initializing search controller
+INFO [2024-02-10T04:31:33.636Z]: Creating index controller
+INFO [2024-02-10T04:31:33.636Z]: Initializing index controller
+INFO [2024-02-10T04:31:33.637Z]: Creating migrate controller
+INFO [2024-02-10T04:31:33.637Z]: Initializing migrate controller
+INFO [2024-02-10T04:31:33.637Z]: Creating settings controller
+INFO [2024-02-10T04:31:33.637Z]: Initializing settings controller
+INFO [2024-02-10T04:31:33.638Z]: Creating navigation controller
+INFO [2024-02-10T04:31:33.638Z]: Initializing navigation controller
+INFO [2024-02-10T04:31:33.638Z]: Registering auth service with auth controller
+INFO [2024-02-10T04:31:33.638Z]: Calculating navigation
+INFO [2024-02-10T04:31:33.760Z]: Navigation
+INFO [2024-02-10T04:31:33.760Z]: {"page":"/auth/login"}
+INFO [2024-02-10T04:31:33.762Z]: Fully initialized!
+INFO [2024-02-10T04:31:33.767Z]: extension_initialized
+INFO [2024-02-10T04:31:33.767Z]: {"timeToInit":28838}

@@ -55,5 +55,12 @@ class UserController extends Controller
         return back()->withErrors(['email'=> 'Inavlid Credentials'])->onlyInput('email');
     }
 
+    public function logout(Request $request){
+        
+    }
+
+
+
+
 
 }

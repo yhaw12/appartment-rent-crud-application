@@ -6,19 +6,18 @@
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-  <div class=" w-full h-screen flex items-center">
+  <div class=" w-full h-screen flex  border outline-4 pr-10">
     <!-- Sidebar -->
-    <div>
+    <div class="h-1/3">
       @include('partials.SideBar')
     </div>
   
-    <div class="border outline-4">
+    <div class="w-full  top-0 border outline-4">
         <!-- Navbar -->
         @include('partials.NavBar')
   
         <!-- Content Area -->
         <div class=" mx-4 my-8">
-          content
           @yield('content')
         </div>
     </div>

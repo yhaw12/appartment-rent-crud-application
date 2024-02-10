@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppartmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayoutController;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +19,14 @@ use App\Http\Controllers\UserController;
 */
 
 // GET METHODS
- Route::get('/', [LayoutController::class, 'home']);
+ Route::get('/', [DashboardController::class, 'dashboard']);
  Route::get('/register', [UserController::class, 'create']);
  Route::get('/login',[UserController::class, 'login']);
+ Route::get('dashboard',[DashboardController::class, 'dashboard']);
+ Route::get('/appartment/a',[AppartmentController::class, 'appartment']);
+ Route::get('/appartment/b',[AppartmentController::class, 'appartment']);
+ Route::get('/appartment/c',[AppartmentController::class, 'appartment']);
+
 
 
 // POST METHODS
