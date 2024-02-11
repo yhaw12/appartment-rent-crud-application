@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\AppartmentController;
+use App\Http\Controllers\HouseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\tennantController;
+use App\Http\Controllers\tennantsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 // use Illuminate\Auth\Events\Login;
@@ -19,16 +21,22 @@ use App\Http\Controllers\UserController;
 */
 
 // GET METHODS
+
+
  Route::get('/', [DashboardController::class, 'dashboard']);
- Route::get('/register', [UserController::class, 'create']);
- Route::get('/login',[UserController::class, 'login']);
+ Route::get('/register', [UserController::class, 'create'])->middleware('guest');
+ Route::get('/login',[UserController::class, 'login'])->name('login')->middleware('guest');
  Route::get('dashboard',[DashboardController::class, 'dashboard']);
- Route::get('/appartment/a',[AppartmentController::class, 'appartment']);
- Route::get('/appartment/b',[AppartmentController::class, 'appartment']);
- Route::get('/appartment/c',[AppartmentController::class, 'appartment']);
+ Route::get('/house/a',[HouseController::class, 'house']);
+ Route::get('/house/b',[HouseController::class, 'house']);
+ Route::get('/house/c',[HouseController::class, 'house']);
+ Route::get('tennants',[tennantController::class, 'tennants']);
+
 
 
 
 // POST METHODS
 Route::post('/users', [UserController::class, 'store']);
 Route::post('/user',[UserController::class, 'show']);
+Route::post('/logout',[UserController::class, 'logout'])->middleware('auth');
+

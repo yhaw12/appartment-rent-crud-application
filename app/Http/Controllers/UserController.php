@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Spatie\FlareClient\Http\Exceptions\InvalidData;
+
 class UserController extends Controller
 {
     //Load the SignUp Page
@@ -47,20 +49,22 @@ class UserController extends Controller
         ]);
 
         if (auth()->attempt($formFeilds)){
-            $request->session->regenerate();
+            $request->session()->regenerate();
             
-            return redirect('/register')->with('message', 'You are LoggedIn');
+            return redirect('/')->with('message', 'You are LoggedIn');
         }
 
         return back()->withErrors(['email'=> 'Inavlid Credentials'])->onlyInput('email');
     }
 
     public function logout(Request $request){
-        
+        auth()->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login')->with('message', 'Successfully Logged Out');
+
     }
-
-
-
-
 
 }
