@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tennants', function (Blueprint $table) {
+        Schema::create('TennantForm', function (Blueprint $table) {
             $table->id();
             $table->string('tenant_name');
             $table->enum('house', ['A', 'B', 'C', 'S']);

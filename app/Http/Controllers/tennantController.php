@@ -51,10 +51,10 @@ class tennantController extends Controller
             'end_date' => 'required|date|after:start_date',
             'amount' => 'required|numeric',
         ]);
-
+    
         $tenant = TennantForm::create($validatedData);
-
+    
         return redirect()->back()->with('success', 'Tenant added successfully');
-
     }
+    
 }

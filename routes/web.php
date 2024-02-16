@@ -30,7 +30,7 @@ use App\Http\Controllers\UserController;
  Route::get('/house/a',[HouseController::class, 'house']);
  Route::get('/house/b',[HouseController::class, 'house']);
  Route::get('/house/c',[HouseController::class, 'house']);
- Route::get('tennants',[tennantController::class, 'tennants']);
+ Route::get('/tennants',[tennantController::class, 'tennants']);
 
 
 
@@ -39,4 +39,7 @@ use App\Http\Controllers\UserController;
 Route::post('/users', [UserController::class, 'store']);
 Route::post('/user',[UserController::class, 'show']);
 Route::post('/logout',[UserController::class, 'logout'])->middleware('auth');
+Route::post('/tennant',[tennantController::class, 'save'])->middleware('auth');
+
+
 

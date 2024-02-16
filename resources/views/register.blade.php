@@ -19,7 +19,6 @@
                     <h2 class="text-center font-bold text-3xl">Signup Form</h2>
                     <form method="POST" action="/users" class="mt-6">
                         @csrf
-    
                         <div class="form-group">
                             <label for="name" class="text-xs font-semibold px-1">Name:</label>
                             <input type="text" id="name" name="name" value='{{old('name')}}' required  class="border w-full p-2 mt-2 text-lg text-gray-700 outline-none focus:border-indigo-500">
