@@ -26,11 +26,11 @@ use App\Http\Controllers\UserController;
  Route::get('/', [DashboardController::class, 'dashboard']);
  Route::get('/register', [UserController::class, 'create'])->middleware('guest');
  Route::get('/login',[UserController::class, 'login'])->name('login')->middleware('guest');
- Route::get('dashboard',[DashboardController::class, 'dashboard']);
- Route::get('/house/a',[HouseController::class, 'house']);
- Route::get('/house/b',[HouseController::class, 'house']);
- Route::get('/house/c',[HouseController::class, 'house']);
- Route::get('/tennants',[tennantController::class, 'tennants']);
+ Route::get('dashboard',[DashboardController::class, 'dashboard'])->middleware('auth');
+ Route::get('/house/a',[HouseController::class, 'house'])->middleware('auth');
+ Route::get('/house/b',[HouseController::class, 'house'])->middleware('auth');
+ Route::get('/house/c',[HouseController::class, 'house'])->middleware('auth');
+ Route::get('/tennants',[tennantController::class, 'tennants'])->middleware('auth');
 
 
 
@@ -39,7 +39,7 @@ use App\Http\Controllers\UserController;
 Route::post('/users', [UserController::class, 'store']);
 Route::post('/user',[UserController::class, 'show']);
 Route::post('/logout',[UserController::class, 'logout'])->middleware('auth');
-Route::post('/tennant',[tennantController::class, 'save'])->middleware('auth');
+Route::post('/tennant',[tennantController::class, 'save']);
 
 
 

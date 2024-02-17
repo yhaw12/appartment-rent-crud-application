@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TennantForm;
+use App\Models\Tennants;
 use Illuminate\Http\Request;
 
 class tennantController extends Controller
 {
-    public function tennants(){
+    public function tennants()
+    {
+        $tennants = Tennants::all();
+
         $otherData = [
             'headers' => [
                 'Tennant',
-                'Appartment',
-                'Starting Date',
+                'House',
+                'Ending Date',
                 'Amount Paid',
                 'Status',
                 'Action'
@@ -24,18 +27,7 @@ class tennantController extends Controller
                     'created_at' => 'Jan  21,  2020',
                     'status' => 'Active'
                 ],
-                [
-                    'user' => 'Vera Carpenter',
-                    'role' => 'Admin',
-                    'created_at' => 'Jan  21,  2020',
-                    'status' => 'Active'
-                ],
-                [
-                    'user' => 'Vera Carpenter',
-                    'role' => 'Admin',
-                    'created_at' => 'Jan  21,  2020',
-                    'status' => 'Active'
-                ],
+
                 
             ]
         ];
@@ -43,16 +35,18 @@ class tennantController extends Controller
     }
 
     public function save(Request $request){
-        $validatedData = $request->validate([
+        $formFeilds = $request->validate([
             'tenant_name' => 'required|string|max:255',
-            'house' => 'required|string|max:1',
-            'apartment_number' => 'required|integer',
+            'house' => 'required|string|in:A,B,C,S',
+            'appartment_number' => 'required|integer',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|min:1',
         ]);
+
+        dd($formFeilds);
     
-        $tenant = TennantForm::create($validatedData);
+        $tenant = Tennants::create($formFeilds);
     
         return redirect()->back()->with('success', 'Tenant added successfully');
     }

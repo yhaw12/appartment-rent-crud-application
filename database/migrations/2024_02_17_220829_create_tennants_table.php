@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('TennantForm', function (Blueprint $table) {
+        Schema::create('tennants', function (Blueprint $table) {
             $table->id();
             $table->string('tenant_name');
-            $table->enum('house', ['A', 'B', 'C', 'S']);
-            $table->unsignedSmallInteger('appartment_number');
+            $table->string('house');
+            $table->string('appartment_number');
             $table->date('start_date');
-            $table->date('end_date')->nullable();
+            $table->date('end_date');
             $table->decimal('amount',  8,  2);
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('TennantForm');
+        Schema::dropIfExists('tennants');
     }
 };
