@@ -6,7 +6,7 @@
           <div class="mt-6">
             <div class="w-full flex items-center justify-between">
                 <h2 class="text-xl font-semibold text-gray-700 leading-tight">Users</h2>
-                <button class=" w-52 h-10 flex items-center bg-green-700  p-2 rounded-md shadow-2 cursor-pointer outline"  onclick="openModal()"><i class="fas fa-plus"></i> <h2>Add Tennant</h2></button>
+                <button id="openModalBtn" class=" w-52 h-10 flex items-center bg-green-700  p-2 rounded-md shadow-2 cursor-pointer outline"  onclick="openModal()"><i class="fas fa-plus"></i> <h2>Add Tennant</h2></button>
             </div>
 
             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -26,7 +26,7 @@
                               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['house'] }}</td>
                               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['end_date'] }}</td>
                               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['amount'] }}</td>
-                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['status'] }}</td>
+                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-10 h-6">{{ $row['status'] }}</td>
                               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['action'] }}</td>
                             </tr>
                         @endforeach
@@ -46,7 +46,7 @@
     </div>
     <div id="addTenantModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 hidden">
       
-    <form method="POST" action="/tennant" >
+    <form method="POST" action="{{route('tennant.store')}}" >
          @csrf
         <div class="relative py-3 sm:max-w-xl sm:mx-auto">
           <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
@@ -70,7 +70,7 @@
                         @enderror
                       </div>
                   </div>
-                  <div class="form-group">
+                  {{-- <div class="form-group">
                     <label for="House" class="block text-sm font-medium text-gray-700">Houses</label>
                     <select name="house" id="house" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Select a House" >
                         <option value="A">House A</option>
@@ -78,7 +78,7 @@
                         <option value="C">House C</option>
                         <option value="S">Stores</option>
                         {{-- <option value="">Other</option> --}}
-                    </select>
+                    {{-- </select>
       
                     <div class="form-group mb-4">
                         <label for="AppartmentNumber" class="block text-sm font-medium text-gray-700">Appartments</label>   
@@ -97,9 +97,9 @@
                             <option value="12">Appartment 12</option>
                             
                             {{-- <option value="">Other</option> --}}
-                        </select>
-                    </div>
-                  </div>
+                        {{-- </select> --}}
+                    {{-- </div>  --}}
+                  {{-- </div>  --}}
                   
                 
                   <div class="flex items-center space-x-4">
@@ -127,7 +127,7 @@
                     <div class="relative gap-8">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none ">&#x20B5;
                         </span>
-                        <input type="text" value="{{ old('amount') }}" required pattern="[0-9]*" class="px-8 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Amount">
+                        <input type="text" name="amount" value="{{ old('amount') }}" required pattern="[0-9]*" class="px-8 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Amount">
                         @error('amount')
                         <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                         @enderror
@@ -138,7 +138,7 @@
                     <div class="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none" onclick="closeModal()">
                       <svg class="w-6 h-6 mr-3 bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Cancel
                     </div>
-                    <button type="submit" id="submitBtn" class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none">Add Tennant</button>
+                    <button type="submit" id="submitBtn" class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none">Save Tennant</button>
                 </div>
               </div>
             </div>
@@ -150,17 +150,21 @@
 @endsection
 
 <script>
-// Functions to open and close the modal
-function openModal() {
-    document.getElementById('addTenantModal').classList.remove('hidden');
-}
+  document.addEventListener("DOMContentLoaded", () => {
+    const openModalButton = document.querySelector("#openModalBtn");
+    const closeModalButton = document.querySelector("#closeModalBtn");
 
-function closeModal() {
-    document.getElementById('addTenantModal').classList.add('hidden');
-}
+    if (openModalButton && closeModalButton) {
+      openModalButton.addEventListener("click", openModal);
+      closeModalButton.addEventListener("click", closeModal);
+    }
+  });
 
- // Add event listeners to open and close modal
-   document.getElementById("openModalBtn").addEventListener("click", openModal);
-     document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+  function openModal() {
+    document.getElementById("addTenantModal").classList.remove("hidden");
+  }
 
+  function closeModal() {
+    document.getElementById("addTenantModal").classList.add("hidden");
+  }
 </script>

@@ -11,7 +11,7 @@ class tennantController extends Controller
     {
         $tennants = Tennants::all();
 
-        $otherData = [
+        $tableData = [
             'headers' => [
                 'Tennant',
                 'House',
@@ -20,35 +20,40 @@ class tennantController extends Controller
                 'Status',
                 'Action'
             ],
-            'rows' => [
-                [
-                    'user' => 'Vera Carpenter',
-                    'role' => 'Admin',
-                    'created_at' => 'Jan  21,  2020',
-                    'status' => 'Active'
-                ],
-
-                
-            ]
+            'rows' => []
         ];
-        return view('pages.tennants', ['tableData' => $otherData]);
+        // pull the start date from the db
+    
+        foreach ($tennants as $tennant) {
+            $status = $tennant->end_date <= $tennant->start_date  ? 'Expiring' : 'New';
+            $statusColor = $status === 'Expiring' ? 'bg-red-500' : 'bg-green-500';        
+            $tableData['rows'][] = [
+                'tenant_name' => $tennant->tenant_name,
+                'house' => $tennant->house,
+                'end_date' => $tennant->end_date,
+                'amount' => $tennant->amount,
+                'status' => 'Active', // Replace with actual status logic
+                'action' => '', // Define action buttons
+            ];
+        }
+        return view('pages.tennants', ['tableData' => $tableData]);
     }
 
     public function save(Request $request){
         $formFeilds = $request->validate([
             'tenant_name' => 'required|string|max:255',
-            'house' => 'required|string|in:A,B,C,S',
-            'appartment_number' => 'required|integer',
+            // 'property_type' => 'required|string|in:house,apartment',
+            // 'property_number' => 'nullable|integer',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'amount' => 'required|numeric|min:1',
+            'amount' => 'requsired|numeric',
         ]);
 
         dd($formFeilds);
     
-        $tenant = Tennants::create($formFeilds);
+        $tennant = Tennants::create($formFeilds);
     
-        return redirect()->back()->with('success', 'Tenant added successfully');
+        return  redirect()->back()->with('success', 'Tenant added successfully');
     }
     
 }

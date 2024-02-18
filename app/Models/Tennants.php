@@ -11,8 +11,8 @@ class Tennants extends Model
 
     protected $fillable = [
         'tenant_name',
-        'house',
-        'appartment_number',
+        // 'house',
+        // 'appartment_number',
         'start_date',
         'end_date',
         'amount',
