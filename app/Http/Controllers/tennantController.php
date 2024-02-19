@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Carbon\Carbon;
 use App\Models\Tennants;
 use Illuminate\Http\Request;
 
@@ -32,28 +32,48 @@ class tennantController extends Controller
                 'house' => $tennant->house,
                 'end_date' => $tennant->end_date,
                 'amount' => $tennant->amount,
-                'status' => 'Active', // Replace with actual status logic
-                'action' => '', // Define action buttons
+                'status' => "<span class='$statusColor'>$status</span>",
+                'action' => "<a href='#' class='text-blue-600 underline'>Update</a>" . " | " . "<a href='#' class='text-red-600 underline'>Delete</a>",
             ];
         }
         return view('pages.tennants', ['tableData' => $tableData]);
     }
 
-    public function save(Request $request){
-        $formFeilds = $request->validate([
-            'tenant_name' => 'required|string|max:255',
-            // 'property_type' => 'required|string|in:house,apartment',
-            // 'property_number' => 'nullable|integer',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
-            'amount' => 'requsired|numeric',
-        ]);
+    public function store(Request $request){
 
-        dd($formFeilds);
+        try{
+            $formFeilds = $request->validate([
+                'tenant_name' => 'required|string|max:255',
+                'house' => 'required|string|in:A,B,C,S',
+                'appartment' => 'nullable|integer|min:1|max:99',
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after:start_date',
+                'amount' => 'required|numeric|min:0',
+            ]);
     
-        $tennant = Tennants::create($formFeilds);
+            // dd($formFeilds);
     
-        return  redirect()->back()->with('success', 'Tenant added successfully');
+            // check for existing customer
+            $existingTenant = Tennants::where(['house' => $formFeilds['house'], 'appartment' => $formFeilds['appartment']])
+             ->whereBetween('end_date', [$formFeilds['start_date'], $formFeilds['end_date']])
+             ->count();
+    
+            // if (!empty($existingTenant)) {
+            //  return redirect()->back()->withErrors(['apartment' => 'The selected apartment is currently occupied between the given dates. Please select different dates or choose a vacant apartment.']);
+            // }
+            if ($existingTenant > 0) {
+                throw new \Exception('The selected apartment is currently occupied between the given dates. Please select different dates or choose a vacant apartment.');
+            }
+        
+        
+            Tennants::create($formFeilds);
+        
+            return  redirect()->back()->with('success', 'Tenant added successfully');
+        } catch (\Throwable $th) {
+            // Redirect back with error message
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+        
     }
     
 }

@@ -4,6 +4,7 @@
 @section('content')
     <div class=" container mx-auto">
           <div class="mt-6">
+            <div id="alerts"></div>
             <div class="w-full flex items-center justify-between">
                 <h2 class="text-xl font-semibold text-gray-700 leading-tight">Users</h2>
                 <button id="openModalBtn" class=" w-52 h-10 flex items-center bg-green-700  p-2 rounded-md shadow-2 cursor-pointer outline"  onclick="openModal()"><i class="fas fa-plus"></i> <h2>Add Tennant</h2></button>
@@ -25,8 +26,8 @@
                               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['tenant_name'] }}</td>
                               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['house'] }}</td>
                               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['end_date'] }}</td>
-                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['amount'] }}</td>
-                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-10 h-6">{{ $row['status'] }}</td>
+                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">&#8373; {{ $row['amount'] }}</td>
+                              <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm w-10 h-6"><span class="{{ $row['status'] == 'New' ? 'btn btn-outline-success' : '' }}">{{ ucfirst($row['status']) }}</span></td>
                               <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['action'] }}</td>
                             </tr>
                         @endforeach
@@ -70,37 +71,23 @@
                         @enderror
                       </div>
                   </div>
-                  {{-- <div class="form-group">
-                    <label for="House" class="block text-sm font-medium text-gray-700">Houses</label>
-                    <select name="house" id="house" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Select a House" >
-                        <option value="A">House A</option>
-                        <option value="B">House B</option>
-                        <option value="C">House C</option>
-                        <option value="S">Stores</option>
-                        {{-- <option value="">Other</option> --}}
-                    {{-- </select>
-      
-                    <div class="form-group mb-4">
-                        <label for="AppartmentNumber" class="block text-sm font-medium text-gray-700">Appartments</label>   
-                        <select name="appartment_number" id="appartment_number" required class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Select a House" >
-                            <option value="1">Appartment 1</option>
-                            <option value="2">Appartment 2</option>
-                            <option value="3">Appartment 3</option>
-                            <option value="4">Appartment 4</option>
-                            <option value="5">Appartment 5</option>
-                            <option value="6">Appartment 6</option>
-                            <option value="7">Appartment 7</option>
-                            <option value="8">Appartment 8</option>
-                            <option value="9">Appartment 9</option>
-                            <option value="10">Appartment 10</option>
-                            <option value="11">Appartment 11</option>
-                            <option value="12">Appartment 12</option>
-                            
-                            {{-- <option value="">Other</option> --}}
-                        {{-- </select> --}}
-                    {{-- </div>  --}}
-                  {{-- </div>  --}}
-                  
+                  <div id="housingSelectionContainer">
+                    <div class="flex flex-col">
+                      <label class="leading-loose">House</label>
+                      <select id="housingSelect" name="house" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600">
+                        <option disabled selected value=''>Choose...</option>
+                        <option value="A" {{ old('house')=='A'? 'selected' :'' }}>A</option>
+                        <option value="B" {{ old('house')=='B'? 'selected' :'' }}>B</option>
+                        <option value="C" {{ old('house')=='C'? 'selected' :'' }}>C</option>
+                        <option value="S" {{ old('house')=='S'? 'selected' :'' }}>D</option>
+                      </select>
+                    </div>
+                    <div class="form-group flex flex-col">
+                      <label class="leading-loose">Apartment Number</label>
+                      <input type="number" name="appartment" id="aptNumberInput" min="1" max="10" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="#">
+                    </div>
+                  </div>          
+                                  
                 
                   <div class="flex items-center space-x-4">
                     <div class="flex flex-col">
@@ -167,4 +154,13 @@
   function closeModal() {
     document.getElementById("addTenantModal").classList.add("hidden");
   }
+  openModalButton.addEventListener("click", e => {
+  revealHousingSelection();
+  openModal();
+});
+
+function revealHousingSelection() {
+  const housingSelectionContainer = document.getElementById("housingSelectionContainer");
+  housingSelectionContainer.classList.toggle("hidden");
+}
 </script>

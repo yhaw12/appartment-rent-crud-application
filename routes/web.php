@@ -39,7 +39,7 @@ use App\Http\Controllers\UserController;
 Route::post('/users', [UserController::class, 'store']);
 Route::post('/user',[UserController::class, 'show']);
 Route::post('/logout',[UserController::class, 'logout'])->middleware('auth');
-Route::post('/tennant',[tennantController::class, 'save'])->name('tennant.store');
+Route::post('/tennant',[tennantController::class, 'store'])->name('tennant.store');
 
 
 

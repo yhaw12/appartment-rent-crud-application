@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
   <div class=" w-full h-screen flex  border outline-4 pr-10">
@@ -22,5 +23,15 @@
         </div>
     </div>
   </div>
+  <style>
+    /* Customize the position and styles of alerts */
+    #swal2-container {
+      z-index: 9999 !important;
+    }
+  </style>
+  
+
+  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('node_modules/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 </body>
 </html>
