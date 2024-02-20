@@ -39,10 +39,12 @@
                     <tbody>
                         @foreach ($tableData['rows'] as $row)
                             <tr>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['user'] }}</td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['role'] }}</td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['created_at'] }}</td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['status'] }}</td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['tenant_name'] }}</td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['appartment'] }}</td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['end_date']->format('d F, Y') }}</td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <span class="{{ $row['status'] == 'New' ? 'bg-green-500' : 'bg-red-500' }} w-12 h-6 py-2 px-4 text-white rounded-sm">{{ ucfirst($row['status']) }}</span>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

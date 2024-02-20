@@ -17,4 +17,16 @@ class Tennants extends Model
         'end_date',
         'amount',
     ];
+
+
+    protected $casts = [
+        'end_date' => 'datetime',    
+    ];
+
+    public function getAppartmentAttribute($value)
+    {
+        // Perform any necessary transformations on $value
+        // and return the result.
+        return $value;
+    }
 }

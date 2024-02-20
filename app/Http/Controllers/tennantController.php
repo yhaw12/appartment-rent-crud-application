@@ -28,20 +28,21 @@ class tennantController extends Controller
             $status = $tennant->end_date <= $tennant->start_date  ? 'Expiring' : 'New';
             $statusColor = $status === 'Expiring' ? 'bg-red-500' : 'bg-green-500';        
             $tableData['rows'][] = [
+                'id' => $tennant->id,
                 'tenant_name' => $tennant->tenant_name,
                 'house' => $tennant->house,
                 'end_date' => $tennant->end_date,
                 'amount' => $tennant->amount,
-                'status' => "<span class='$statusColor'>$status</span>",
-                'action' => "<a href='#' class='text-blue-600 underline'>Update</a>" . " | " . "<a href='#' class='text-red-600 underline'>Delete</a>",
+                'status' => $status,
+                'action' => "Update|Delete",
             ];
         }
         return view('pages.tennants', ['tableData' => $tableData]);
     }
 
-    public function store(Request $request){
 
-        try{
+    // STORE TENNAT FORM DATA
+    public function store(Request $request){
             $formFeilds = $request->validate([
                 'tenant_name' => 'required|string|max:255',
                 'house' => 'required|string|in:A,B,C,S',
@@ -56,24 +57,53 @@ class tennantController extends Controller
             // check for existing customer
             $existingTenant = Tennants::where(['house' => $formFeilds['house'], 'appartment' => $formFeilds['appartment']])
              ->whereBetween('end_date', [$formFeilds['start_date'], $formFeilds['end_date']])
-             ->count();
+             ->first();
     
-            // if (!empty($existingTenant)) {
-            //  return redirect()->back()->withErrors(['apartment' => 'The selected apartment is currently occupied between the given dates. Please select different dates or choose a vacant apartment.']);
-            // }
-            if ($existingTenant > 0) {
-                throw new \Exception('The selected apartment is currently occupied between the given dates. Please select different dates or choose a vacant apartment.');
-            }
-        
+             if (!empty($existingTenant)) {
+                return redirect()->back()->with('error', 'The selected apartment is currently occupied between the given dates. Please select different dates or choose a vacant apartment.');
+              }              
+            
         
             Tennants::create($formFeilds);
         
-            return  redirect()->back()->with('success', 'Tenant added successfully');
-        } catch (\Throwable $th) {
-            // Redirect back with error message
-            return redirect()->back()->with('error', $th->getMessage());
-        }
-        
+            return  redirect()->back()->with('success', 'Tenant added successfully');        
     }
+
+        // edit a tennant info
+        public function update(Request $request, $id){
+            $formFeilds = $request->validate([
+                'tenant_name' => 'required|string|max:255',
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after:start_date',
+                'amount' => 'required|numeric|min:0',
+            ]);
+            $tennant = Tennants::findOrFail($id);
+
+            // Update the tenant's attributes
+            $tennant->tenant_name = $formFeilds['tenant_name'];
+            $tennant->start_date = $formFeilds['start_date'];
+            $tennant->end_date = $formFeilds['end_date'];
+            $tennant->amount = $formFeilds['amount'];
+
+            // save the tennant
+            $tennant->save();
+             // Redirect the user to the tenants list with a success message
+            return redirect()->back()->with('success', 'Tenant updated successfully');
+
+        }
+            
+
+
+
+
+        // DELETE TENNAT ID..
+        public function destroy($id){
+            $tennant = Tennants::findOrFail($id);
+
+            $tennant->delete();
+
+            return redirect()->back()->with('success', 'Tennant deleted successfully');
+
+        }
     
 }

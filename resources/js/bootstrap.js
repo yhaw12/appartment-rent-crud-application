@@ -31,16 +31,3 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     enabledTransports: ['ws', 'wss'],
 // });
 
-window.Swal = require('sweetalert2');
-
-const toastMixin = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-});
-
-toastMixin.fire({
-  icon: 'success',
-  title: 'Signed in successfully.'
-});

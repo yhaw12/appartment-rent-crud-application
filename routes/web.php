@@ -26,11 +26,13 @@ use App\Http\Controllers\UserController;
  Route::get('/', [DashboardController::class, 'dashboard']);
  Route::get('/register', [UserController::class, 'create'])->middleware('guest');
  Route::get('/login',[UserController::class, 'login'])->name('login')->middleware('guest');
- Route::get('dashboard',[DashboardController::class, 'dashboard'])->middleware('auth');
- Route::get('/house/a',[HouseController::class, 'house'])->middleware('auth');
- Route::get('/house/b',[HouseController::class, 'house'])->middleware('auth');
- Route::get('/house/c',[HouseController::class, 'house'])->middleware('auth');
+ Route::get('/dashboard',[DashboardController::class, 'dashboard'])->middleware('auth');
+ Route::get('/house/a',[HouseController::class, 'houseA'])->middleware('auth');
+ Route::get('/house/b',[HouseController::class, 'houseB'])->middleware('auth');
+ Route::get('/house/c',[HouseController::class, 'houseC'])->middleware('auth');
+ Route::get('/house/stores',[HouseController::class, 'houseS'])->middleware('auth');
  Route::get('/tennants',[tennantController::class, 'tennants'])->middleware('auth');
+//  Route::get('/tennant/edit/{id}',[tennantController::class, 'edit']);
 
 
 
@@ -40,6 +42,13 @@ Route::post('/users', [UserController::class, 'store']);
 Route::post('/user',[UserController::class, 'show']);
 Route::post('/logout',[UserController::class, 'logout'])->middleware('auth');
 Route::post('/tennant',[tennantController::class, 'store'])->name('tennant.store');
+
+// EDIT METHODS
+Route::put('tennant/update/{id}', [tennantController::class, 'update'])->name('tennant.update');
+
+
+// DELETE METHODS
+Route::delete('/tennant/{id}', [tennantController::class, 'destroy'])->name('tennant.destroy');
 
 
 

@@ -2,25 +2,118 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tennants;
 use Illuminate\Http\Request;
 
 class houseController extends Controller
 {
-    public function house(){
+    public function houseA(){
+
+        $house = 'A';
         
     
-        $appartments = collect(range(1, 12))->map(function($number){
+        $appartmentsA = collect(range(20,  30))->map(function($number) use ($house){
+            // Check if there is a tenant occupying this apartment
+            $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
+
+            $status = 'vacant';
+            if ($tenant) {
+                $status = 'occupied';
+            }
+    
             return (object) [
+                'house'=> $house,
                 'number' => $number,
-                'status' => 'vacant', // or 'occupied' based on your logic
+                'status' => $status,
                 // Add other properties as needed
             ];
+        
         });
+        //  dd($appartments);
 
 
-    return view('pages.houseA', ['appartments'=>$appartments]);
-    // return view('pages.appartmentB', ['tableData' => $otherData]);
-    // return view('pages.appartmentC', ['tableData' => $moreData]);
+    return view('pages.houseA', ['appartments'=>$appartmentsA]);
+    }
 
-}
+    // house B appartments
+    public function houseB(){
+
+        $house = 'B';    
+        $appartmentsB = collect(range(1,  12))->map(function($number) use ($house){
+            // Check if there is a tenant occupying this apartment
+            $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
+            $status = 'vacant';
+            if ($tenant) {
+                $status = 'occupied';
+            }
+    
+            return (object) [
+                'house'=> $house,
+                'number' => $number,
+                'status' => $status,
+                // Add other properties as needed
+            ];
+        
+        });
+        //  dd($appartments);
+
+
+    return view('pages.houseB', ['appartments'=>$appartmentsB]);
+    }
+
+    // house C appartments
+    public function houseC(){
+
+        $house = 'C';
+        
+    
+        $appartmentsC = collect(range(1,  10))->map(function($number) use ($house){
+            // Check if there is a tenant occupying this apartment
+            $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
+            $status = 'vacant';
+            if ($tenant) {
+                $status = 'occupied';
+            }
+    
+            return (object) [
+                'house'=> $house,
+                'number' => $number,
+                'status' => $status,
+                // Add other properties as needed
+            ];
+        
+        });
+        //  dd($appartments);
+
+
+    return view('pages.houseC', ['appartments'=>$appartmentsC]);
+    }
+
+    // STORES
+    public function houseS(){
+
+        $house = 'S';
+        
+    
+        $stores = collect(range(1,  5))->map(function($number) use ($house){
+            // Check if there is a tenant occupying this apartment
+            $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
+            $status = 'vacant';
+            if ($tenant) {
+                $status = 'occupied';
+            }
+    
+            return (object) [
+                'house'=> $house,
+                'number' => $number,
+                'status' => $status,
+                // Add other properties as needed
+            ];
+        
+        });
+        //  dd($appartments);
+
+
+    return view('pages.stores', ['stores'=>$stores]);
+    }
 }
