@@ -32,7 +32,8 @@ use App\Http\Controllers\UserController;
  Route::get('/house/c',[HouseController::class, 'houseC'])->middleware('auth');
  Route::get('/house/stores',[HouseController::class, 'houseS'])->middleware('auth');
  Route::get('/tennants',[tennantController::class, 'tennants'])->middleware('auth');
-//  Route::get('/tennant/edit/{id}',[tennantController::class, 'edit']);
+ Route::get('/tenant/{house}/{number}', [HouseController::class, 'getTenant'])->middleware('auth');
+
 
 
 

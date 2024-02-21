@@ -12,7 +12,7 @@ class houseController extends Controller
         $house = 'A';
         
     
-        $appartmentsA = collect(range(20,  30))->map(function($number) use ($house){
+        $appartmentsA = collect(range(21,  30))->map(function($number) use ($house){
             // Check if there is a tenant occupying this apartment
             $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
 
@@ -67,7 +67,7 @@ class houseController extends Controller
         $house = 'C';
         
     
-        $appartmentsC = collect(range(1,  10))->map(function($number) use ($house){
+        $appartmentsC = collect(range(1,  9))->map(function($number) use ($house){
             // Check if there is a tenant occupying this apartment
             $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
             $status = 'vacant';
@@ -116,4 +116,11 @@ class houseController extends Controller
 
     return view('pages.stores', ['stores'=>$stores]);
     }
+
+
+    public function getTenant($house, $number) {
+        $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
+        return response()->json($tenant);
+    }
+    
 }

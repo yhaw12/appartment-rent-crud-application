@@ -1,6 +1,5 @@
 @extends('layout')
 
-
 @section('content')
     <div class=" container mx-auto">
           <div class="mt-6">
@@ -12,7 +11,8 @@
 
             <div class="w-full flex items-center justify-between">
                 <h2 class="text-xl font-semibold text-gray-700 leading-tight">Users</h2>
-                <button id="openModalBtn" class=" w-52 h-10 flex items-center bg-green-700  p-2 rounded-md shadow-2 cursor-pointer outline"  onclick="openModal()"><i class="fas fa-plus"></i> <h2>Add Tennant</h2></button>
+                <button id="openModalBtn" class="w-52 h-10 flex items-center bg-green-700 p-2 rounded-md shadow-2 cursor-pointer outline" onclick="openModal()"><i class="fas fa-plus"></i> <h2>Add Tennant</h2></button>
+
             </div>
 
             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -36,7 +36,8 @@
                               <span class="{{ $row['status'] == 'New' ? 'bg-green-500' : 'bg-red-500' }} w-12 h-6 py-2 px-4 text-white rounded-sm">{{ ucfirst($row['status']) }}</span>
                           </td>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                              <button onclick="openEditModal({{$row['id']}})" class="w-16 h-8 px-4 py-2 inline-flex items-center justify-center bg-green-500 text-white rounded-sm">Update</button> 
+                            <button type="submit" onclick="openEditModal({{$row['id']}})" class="w-16 h-8 px-4 py-2 inline-flex items-center justify-center bg-green-500 text-white rounded-sm">Update</button>
+ 
                                  
                               {{-- DELETE TENNAT --}}
                             <form action="{{ route('tennant.destroy', $row['id']) }}" method="POST" style="display: inline-block;">
@@ -104,7 +105,7 @@
                     </div>
                     <div class="form-group flex flex-col">
                       <label class="leading-loose">Apartment Number</label>
-                      <input type="number" name="appartment" id="aptNumberInput" min="1" max="10" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="#">
+                      <input type="number" name="appartment" id="aptNumberInput" min="1" max="40" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="#">
                     </div>
                   </div>          
                                   
@@ -142,9 +143,9 @@
                   </div>
                 </div>
                 <div class="pt-4 flex items-center space-x-4">
-                    <div class="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none" onclick="closeModal()">
-                      <svg class="w-6 h-6 mr-3 bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Cancel
-                    </div>
+                    <button class="flex justify-center items-center w-full bg-red-500 text-gray-900 px-4 py-3 rounded-md focus:outline-none" onclick="closeModal()">
+                      <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Cancel
+                    </button>
                     <button type="submit" id="submitBtn" class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none">Save Tennant</button>
                 </div>
               </div>
@@ -213,9 +214,9 @@
                   </div>
                 </div>
                 <div class="pt-4 flex items-center space-x-4">
-                    <div class="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none" onclick="closeEditModal()">
-                      <svg class="w-6 h-6 mr-3 bg-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Cancel
-                    </div>
+                    <button class="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none" onclick="closeEditModal()">
+                      <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Cancel
+                    </button>
                     <button type="submit" id="submitBtn" class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none">Save</button>
                 </div>
               </div>
@@ -230,29 +231,21 @@
 @endsection
 
 <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const openModalButton = document.querySelector("#openModalBtn");
-        const closeModalButton = document.querySelector("#closeModalBtn");
+    function openModal() {
+      document.getElementById('addTenantModal').style.display = 'flex';
+    }
 
-        if (openModalButton && closeModalButton) {
-          openModalButton.addEventListener("click", openModal);
-          closeModalButton.addEventListener("click", closeModal);
-        }
-      });
+    function openEditModal(id) {
+      document.getElementById('editTenantModal').style.display = 'flex';
+      // You can also pass the id to the form if you need it
+      document.getElementById('editTenantModal').querySelector('form').action = `{{route('tennant.update', ['id'])}}`.replace('id', id);
+    }
 
-      function openModal() {
-        document.getElementById("addTenantModal").classList.remove("hidden");
-        document.getElementById("editTenantModal").classList.remove("hidden");
-      }
+    function closeModal() {
+      document.getElementById('addTenantModal').style.display = 'none';
+      document.getElementById('editTenantModal').style.display = 'none';
+    };
 
-      function closeModal() {
-        document.getElementById("addTenantModal").classList.add("hidden");
-        document.getElementById("editTenantModal").classList.add("hidden");
-      }
-      openModalButton.addEventListener("click", e => {
-      revealHousingSelection();
-      openModal();
-    });
 
     function revealHousingSelection() {
       const housingSelectionContainer = document.getElementById("housingSelectionContainer");

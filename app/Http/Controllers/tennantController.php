@@ -62,8 +62,6 @@ class tennantController extends Controller
              if (!empty($existingTenant)) {
                 return redirect()->back()->with('error', 'The selected apartment is currently occupied between the given dates. Please select different dates or choose a vacant apartment.');
               }              
-            
-        
             Tennants::create($formFeilds);
         
             return  redirect()->back()->with('success', 'Tenant added successfully');        
@@ -91,10 +89,6 @@ class tennantController extends Controller
             return redirect()->back()->with('success', 'Tenant updated successfully');
 
         }
-            
-
-
-
 
         // DELETE TENNAT ID..
         public function destroy($id){

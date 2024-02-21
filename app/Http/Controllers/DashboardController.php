@@ -10,9 +10,9 @@ class DashboardController extends Controller
 {
     public function dashboard(){
         // Calculate the total number of apartments in each house
-        $houseA = collect(range(20,   30))->count();
+        $houseA = collect(range(21,   30))->count();
         $houseB = collect(range(1,   12))->count();
-        $houseC = collect(range(1,   10))->count();
+        $houseC = collect(range(1,   9))->count();
         $houseS = collect(range(1,   5))->count();
 
         // Calculate the total number of apartments
@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $totalOccupied = Tennants::whereNotNull('tenant_name')->count();
 
         // Calculate the total number of vacant apartments
-        $totalVacant = Tennants::whereNull('tenant_name')->count();
+        $totalVacant = $totalApartments - $totalOccupied; 
 
         // Calculate the total number of tenants whose rent is about to expire within the next  3 months
         $expiringSoon = Tennants::where('end_date', '<=', Carbon::now()->addMonths(3))
@@ -62,6 +62,7 @@ class DashboardController extends Controller
         $tableData = [
             'headers' => [
                 'Tennant',
+                'House',
                 'Appartment',
                 'Ending Date',
                 'Status'
@@ -75,6 +76,7 @@ class DashboardController extends Controller
             $tableData['rows'][] = [
                 'id' => $tennant->id,
                 'tenant_name' => $tennant->tenant_name,
+                'house' => $tennant->house,
                 'appartment' => $tennant->appartment,
                 'end_date' => $tennant->end_date,
                 'status' => $status,

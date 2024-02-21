@@ -27,31 +27,32 @@
 
 
             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                  <table class="min-w-full leading-normal">
-                    <thead>
-                        <tr>
-                            @foreach ($tableData['headers'] as $header)
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{{ $header }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($tableData['rows'] as $row)
+                <div class="inline-block min-w-full shadow-lg rounded-lg overflow-hidden">
+                    <table class="min-w-full leading-normal">
+                        <thead>
                             <tr>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['tenant_name'] }}</td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['appartment'] }}</td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['end_date']->format('d F, Y') }}</td>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <span class="{{ $row['status'] == 'New' ? 'bg-green-500' : 'bg-red-500' }} w-12 h-6 py-2 px-4 text-white rounded-sm">{{ ucfirst($row['status']) }}</span>
-                                </td>
+                                @foreach ($tableData['headers'] as $header)
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{{ $header }}</th>
+                                @endforeach
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @foreach ($tableData['rows'] as $row)
+                                <tr class="{{ $loop->even ? 'bg-gray-50' : '' }}">
+                                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['tenant_name'] }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['house'] }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['appartment'] }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['end_date']->format('d F, Y') }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                                        <span class="{{ $row['status'] == 'New' ? 'bg-green-500' : 'bg-red-500' }} inline-block w-12 h-6 py-2 px-4 text-white rounded-sm">{{ ucfirst($row['status']) }}</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                     <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-                        <span class="text-xs xs:text-sm text-gray-900">Showing 1 to 4 of 50 Entries</span>
-
+                        <span class="text-xs xs:text-sm text-gray-900">Showing  1 to  4 of  50 Entries</span>
+            
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l">Prev</button>
                             <button class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r">Next</button>
@@ -59,6 +60,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 
