@@ -30,7 +30,7 @@
                       <tr>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['tenant_name'] }}</td>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['house'] }}</td>
-                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['end_date']->format('d F, Y') }}</td>
+                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['duration'] }}</td>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">&#8373; {{ $row['amount'] }}</td>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               <span class="{{ $row['status'] == 'New' ? 'bg-green-500' : 'bg-red-500' }} w-12 h-6 py-2 px-4 text-white rounded-sm">{{ ucfirst($row['status']) }}</span>
@@ -121,13 +121,14 @@
                       </div>
                     </div>
                     <div class="form-group flex flex-col">
-                      <label class="leading-loose">End</label>
-                      <div class="relative focus-within:text-gray-600 text-gray-400">
-                        <input type="date" name="end_date" required class="pr-4 pl-10 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="26/02/2020">
-                        <div class="absolute left-3 top-2">
-                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                      </div>
+                      <label class="leading-loose">Duration</label>
+                      <select id="durationSelect" name="duration" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600">
+                          <option disabled selected value=''>Choose...</option>
+                          <option value="3/12" {{ old('duration')=='3/12'? 'selected' :'' }}>3 months</option>
+                          <option value="6/12" {{ old('duration')=='6/12'? 'selected' :'' }}>6 months</option>
+                          <option value="12" {{ old('duration')=='12'? 'selected' :'' }}>1 year</option>
+                          <option value="24" {{ old('duration')=='24'? 'selected' :'' }}>2 years</option>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group flex flex-col mt-20">
@@ -192,14 +193,16 @@
                       </div>
                     </div>
                     <div class="form-group flex flex-col">
-                      <label class="leading-loose">End</label>
-                      <div class="relative focus-within:text-gray-600 text-gray-400">
-                        <input type="date" name="end_date" required class="pr-4 pl-10 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="26/02/2020">
-                        <div class="absolute left-3 top-2">
-                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                      </div>
+                      <label class="leading-loose">Duration</label>
+                      <select id="durationSelect" name="duration" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600">
+                          <option disabled selected value=''>Choose...</option>
+                          <option value="3/12" {{ old('duration')=='3/12'? 'selected' :'' }}>3 months</option>
+                          <option value="6/12" {{ old('duration')=='6/12'? 'selected' :'' }}>6 months</option>
+                          <option value="12" {{ old('duration')=='12'? 'selected' :'' }}>1 year</option>
+                          <option value="24" {{ old('duration')=='24'? 'selected' :'' }}>2 years</option>
+                      </select>
                     </div>
+
                   </div>
                   <div class="form-group flex flex-col mt-20">
                     <label class="leading-loose">amount</label>
@@ -225,8 +228,12 @@
         </div>
       </form>
 
+
     </div>
-   
+  
+    <a href="" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Export Tenants</a>
+
+
   </div>
 @endsection
 

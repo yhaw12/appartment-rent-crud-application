@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\tennantController;
 use App\Http\Controllers\tennantsController;
@@ -33,6 +34,8 @@ use App\Http\Controllers\UserController;
  Route::get('/house/stores',[HouseController::class, 'houseS'])->middleware('auth');
  Route::get('/tennants',[tennantController::class, 'tennants'])->middleware('auth');
  Route::get('/tenant/{house}/{number}', [HouseController::class, 'getTenant'])->middleware('auth');
+//  Route::get('/finances', [FinancesController::class, 'getFinancialData'])->middleware('auth');
+
 
 
 
@@ -43,6 +46,8 @@ Route::post('/users', [UserController::class, 'store']);
 Route::post('/user',[UserController::class, 'show']);
 Route::post('/logout',[UserController::class, 'logout'])->middleware('auth');
 Route::post('/tennant',[tennantController::class, 'store'])->name('tennant.store');
+Route::get('/export', [tennantController::class, 'export'])->name('export.tenants');
+
 
 // EDIT METHODS
 Route::put('tennant/update/{id}', [tennantController::class, 'update'])->name('tennant.update');

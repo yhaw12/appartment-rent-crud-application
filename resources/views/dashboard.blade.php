@@ -6,18 +6,19 @@
     <!-- Cards -->
 
     @foreach ($menus as $menu)
-      <div class="bg-white p-4 rounded shadow">
-        <div class="flex items-center">
-            <div class="{{ $menu['color'] }} w-8 h-8 rounded-full flex items-center justify-center mr-2">
-                <i class="{{ $menu['icon'] }}"></i>
-            </div>
-            <div>
-                <p class="text-gray-600">{{ $menu['name'] }}</p>
-                <p class="text-xl font-semibold">{{ $menu['total'] }}</p>
-            </div>
+  <div class="bg-white p-4 rounded shadow-lg">
+    <div class="flex items-center">
+        <div class="{{ $menu['color'] }} w-16 h-16 rounded-lg flex items-center justify-center mr-2">
+            <i class="{{ $menu['icon'] }} text-white text-2xl"></i>
         </div>
-      </div>
+        <div>
+            <p class="text-gray-800">{{ $menu['name'] }}</p>
+            <p class="text-xl font-semibold text-gray-900">{{ $menu['total'] }}</p>
+        </div>
+        </div>
+    </div>
     @endforeach
+
   </div>
   
 
@@ -38,11 +39,11 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($tableData['rows'] as $row)
-                                <tr class="{{ $loop->even ? 'bg-gray-50' : '' }}">
+                                <tr class="{{ $loop->even ? 'bg-gray-50' : 'bg-white' }}">
                                     <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['tenant_name'] }}</td>
                                     <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['house'] }}</td>
                                     <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['appartment'] }}</td>
-                                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['end_date']->format('d F, Y') }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['duration'] }}</td>
                                     <td class="px-5 py-5 border-b border-gray-200 text-sm">
                                         <span class="{{ $row['status'] == 'New' ? 'bg-green-500' : 'bg-red-500' }} inline-block w-12 h-6 py-2 px-4 text-white rounded-sm">{{ ucfirst($row['status']) }}</span>
                                     </td>

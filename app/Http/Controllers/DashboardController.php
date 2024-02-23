@@ -25,8 +25,8 @@ class DashboardController extends Controller
         $totalVacant = $totalApartments - $totalOccupied; 
 
         // Calculate the total number of tenants whose rent is about to expire within the next  3 months
-        $expiringSoon = Tennants::where('end_date', '<=', Carbon::now()->addMonths(3))
-            ->where('end_date', '>', Carbon::now())
+        $expiringSoon = Tennants::where('duration', '<=', Carbon::now()->addMonths(3))
+            ->where('duration', '>', Carbon::now())
             ->count();
 
         // Dashboard Cards data Object
@@ -71,14 +71,14 @@ class DashboardController extends Controller
         ];
 
         foreach ($tennants as $tennant) {
-            $status = $tennant->end_date <= $tennant->start_date  ? 'Expiring' : 'New';
+            $status = $tennant->duration <= $tennant->start_date  ? 'Expiring' : 'New';
             $statusColor = $status === 'Expiring' ? 'bg-red-500' : 'bg-green-500';        
             $tableData['rows'][] = [
                 'id' => $tennant->id,
                 'tenant_name' => $tennant->tenant_name,
                 'house' => $tennant->house,
                 'appartment' => $tennant->appartment,
-                'end_date' => $tennant->end_date,
+                'duration' => $tennant->duration,
                 'status' => $status,
             ];
         }

@@ -14,7 +14,7 @@
       @include('partials.SideBar')
     </div>
   
-    <div class="w-full  top-0 border outline-4">
+    <div class="w-full top-0 border outline-4">
         <!-- Navbar -->
         @include('partials.NavBar')
   

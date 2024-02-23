@@ -7,53 +7,47 @@ use Illuminate\Http\Request;
 
 class houseController extends Controller
 {
-    public function houseA(){
+    // ... other methods ...
 
-        $house = 'A';
-        
-    
-        $appartmentsA = collect(range(21,  30))->map(function($number) use ($house){
-            // Check if there is a tenant occupying this apartment
-            $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
-
-            $status = 'vacant';
-            if ($tenant) {
-                $status = 'occupied';
-            }
-    
-            return (object) [
-                'house'=> $house,
-                'number' => $number,
-                'status' => $status,
-                // Add other properties as needed
-            ];
-        
-        });
-        //  dd($appartments);
-
-
+public function houseA(){
+    $house = 'A';
+    $appartmentsA = collect(range(21,   30))->map(function($number) use ($house){
+        $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
+        $status = 'vacant';
+        if ($tenant) {
+            $status = 'occupied';
+        }
+        return (object) [
+            'house'=> $house,
+            'number' => $number,
+            'status' => $status,
+            'tenant' => $tenant, // Make sure to include the tenant object
+            // Add other properties as needed
+        ];
+    });
     return view('pages.houseA', ['appartments'=>$appartmentsA]);
-    }
+}
+
+// ... other methods ...
+
 
     // house B appartments
     public function houseB(){
 
         $house = 'B';    
-        $appartmentsB = collect(range(1,  12))->map(function($number) use ($house){
-            // Check if there is a tenant occupying this apartment
+        $appartmentsB = collect(range(1,   12))->map(function($number) use ($house){
             $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
             $status = 'vacant';
             if ($tenant) {
                 $status = 'occupied';
             }
-    
             return (object) [
                 'house'=> $house,
                 'number' => $number,
                 'status' => $status,
+                'tenant' => $tenant, // Make sure to include the tenant object
                 // Add other properties as needed
             ];
-        
         });
         //  dd($appartments);
 
@@ -67,21 +61,19 @@ class houseController extends Controller
         $house = 'C';
         
     
-        $appartmentsC = collect(range(1,  9))->map(function($number) use ($house){
-            // Check if there is a tenant occupying this apartment
+        $appartmentsC = collect(range(1,   9))->map(function($number) use ($house){
             $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
             $status = 'vacant';
             if ($tenant) {
                 $status = 'occupied';
             }
-    
             return (object) [
                 'house'=> $house,
                 'number' => $number,
                 'status' => $status,
+                'tenant' => $tenant, // Make sure to include the tenant object
                 // Add other properties as needed
             ];
-        
         });
         //  dd($appartments);
 
@@ -95,21 +87,19 @@ class houseController extends Controller
         $house = 'S';
         
     
-        $stores = collect(range(1,  5))->map(function($number) use ($house){
-            // Check if there is a tenant occupying this apartment
+        $stores = collect(range(1,   6))->map(function($number) use ($house){
             $tenant = Tennants::where('house', $house)->where('appartment', $number)->first();
             $status = 'vacant';
             if ($tenant) {
                 $status = 'occupied';
             }
-    
             return (object) [
                 'house'=> $house,
                 'number' => $number,
                 'status' => $status,
+                'tenant' => $tenant, // Make sure to include the tenant object
                 // Add other properties as needed
             ];
-        
         });
         //  dd($appartments);
 

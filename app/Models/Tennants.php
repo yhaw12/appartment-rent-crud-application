@@ -14,14 +14,14 @@ class Tennants extends Model
         'house',
         'appartment',
         'start_date',
-        'end_date',
+        'duration',
         'amount',
     ];
 
 
-    protected $casts = [
-        'end_date' => 'datetime',    
-    ];
+    // protected $casts = [
+    //     'end_date' => 'datetime',    
+    // ];
 
     public function getAppartmentAttribute($value)
     {
