@@ -1,34 +1,38 @@
-<!--  <?php
+<?php
 
-// namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
-// use App\Models\Tennants;
-// use Illuminate\Http\Request;
+use App\Models\Tennants;
 
-// class FinancesController extends Controller
-// {
-    // public function getFinancialData() {
-        // Retrieve all tenants and their associated houses & amounts
-        // $tenants = Tennants::with(['house', 'amount'])->get();
-      
-        // Initialize arrays to store financial data
-        // $financialDataByHouse = [];
-        // $overallTotalIncome = 0;
-      
-        // foreach ($tenants as $tenant) {
-          // Calculate individual tenant's income
-        //   $tenantIncome = $tenant->->sum('amount');
-          
-          // Add income to corresponding house or initialize if not present yet
-        //   if (!isset($financialDataByHouse[$tenant->house->letter])) {
-            // $financialDataByHouse[$tenant->house->letter] = ['house' => $tenant->house->letter, 'total_income' => 0];
-          
-        //   $financialDataByHouse[$tenant->house->letter]['total_income'] += $tenantIncome;
-          
-          // Accumulate overall total income
-        //   $overallTotalIncome += $tenantIncome;
-        // }
-      
-        // return compact('financialDataByHouse', 'overallTotalIncome');
-    //   }
-// } -->
+class FinancesController extends Controller
+{
+    public function getFinancialData()
+    {
+        // Get the tenant names from the database
+        $tenants = Tennants::pluck('tenant_name')->unique()->toArray();
+
+        // Get the total amount paid by each tenant
+        $totals = [];
+        foreach ($tenants as $tenant) {
+            $totals[$tenant] = Tennants::where('tenant_name', $tenant)->sum('amount');
+        }
+
+        // Get the average amount paid per house
+        $houses = ['A', 'B', 'C', 'S'];
+        $averages = [];
+        foreach ($houses as $house) {
+            $averages[$house] = Tennants::where('house', $house)->avg('amount');
+        }
+
+        // Get the chart data
+        $data = Tennants::pluck('amount')->toArray();
+
+        return view('pages.Finances', [
+            'tenants' => $tenants,
+            'totals' => $totals,
+            'houses' => $houses,
+            'averages' => $averages,
+            'data' => $data,
+        ]);
+    }
+}

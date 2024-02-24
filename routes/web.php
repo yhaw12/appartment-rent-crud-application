@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\tennantController;
@@ -34,7 +35,7 @@ use App\Http\Controllers\UserController;
  Route::get('/house/stores',[HouseController::class, 'houseS'])->middleware('auth');
  Route::get('/tennants',[tennantController::class, 'tennants'])->middleware('auth');
  Route::get('/tenant/{house}/{number}', [HouseController::class, 'getTenant'])->middleware('auth');
-//  Route::get('/finances', [FinancesController::class, 'getFinancialData'])->middleware('auth');
+ Route::get('/finances', [FinancesController::class, 'getFinancialData'])->middleware('auth');
 
 
 
