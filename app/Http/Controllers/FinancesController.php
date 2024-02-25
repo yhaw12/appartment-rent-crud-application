@@ -3,36 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tennants;
+use Illuminate\Http\Request;
 
 class FinancesController extends Controller
 {
-    public function getFinancialData()
+    public function getFinancialData(Request $request)
     {
-        // Get the tenant names from the database
-        $tenants = Tennants::pluck('tenant_name')->unique()->toArray();
+        // Initialize the query builder
+        $query = Tennants::query();
 
-        // Get the total amount paid by each tenant
-        $totals = [];
-        foreach ($tenants as $tenant) {
-            $totals[$tenant] = Tennants::where('tenant_name', $tenant)->sum('amount');
+        // Apply search/filter if a search term is provided
+        if ($request->has('search')) {
+            $query->where('tenant_name', 'like', '%' . $request->search . '%')
+                  ->orWhere('house', 'like', '%' . $request->search . '%');
         }
 
-        // Get the average amount paid per house
-        $houses = ['A', 'B', 'C', 'S'];
-        $averages = [];
-        foreach ($houses as $house) {
-            $averages[$house] = Tennants::where('house', $house)->avg('amount');
-        }
+        // Apply pagination
+        $tennants = $query->paginate(15);
 
-        // Get the chart data
-        $data = Tennants::pluck('amount')->toArray();
+        // Calculate the total amount collected from all tenants
+        // Note: This should ideally be calculated from the filtered/searched tenants, not all tenants
+        $totalAmounts = $tennants->sum('amount');
 
-        return view('pages.Finances', [
-            'tenants' => $tenants,
-            'totals' => $totals,
-            'houses' => $houses,
-            'averages' => $averages,
-            'data' => $data,
-        ]);
+        // Pass the data to the view
+        return view('pages.finances', compact('tennants', 'totalAmounts'));
     }
 }
