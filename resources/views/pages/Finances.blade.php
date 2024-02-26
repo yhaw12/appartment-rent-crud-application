@@ -7,6 +7,27 @@
         <p class="mt-2 text-lg text-gray-600">A comprehensive view of all tenant amounts.</p>
     </div>
 
+        <!-- Top Ideas Section -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+            <div class="text-center">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Top Ideas for Financial Growth</h3>
+                <p class="text-gray-600 mb-6">Discover insights and strategies to enhance your financial performance.</p>
+            </div>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <!-- Idea  1 -->
+                <div class="bg-gray-100 text-gray-700 p-4 rounded-lg shadow-md">
+                    <h4 class="font-semibold text-lg mb-2">Improve Cash Flow</h4>
+                    <p class="text-sm">Explore new payment methods and optimize your expenses to increase your cash flow.</p>
+                </div>
+                <!-- Idea  2 -->
+                <div class="bg-gray-100 text-gray-700 p-4 rounded-lg shadow-md">
+                    <h4 class="font-semibold text-lg mb-2">Invest in Rental Properties</h4>
+                    <p class="text-sm">Consider expanding your rental portfolio to diversify your income sources.</p>
+                </div>
+            </div>
+        </div>
+    
+
     <div class="mt-8">
         <label for="search" class="sr-only">Search</label>
         <div class="relative rounded-md shadow-sm">

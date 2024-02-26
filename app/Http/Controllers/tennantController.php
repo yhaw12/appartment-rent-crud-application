@@ -7,35 +7,48 @@ use Illuminate\Http\Request;
 
 class tennantController extends Controller
 {
-        public function store(Request $request){
-            $formFeilds = $request->validate([
-                'tenant_name' => 'required|string|max:255',
-                'house' => 'required|string|in:A,B,C,S',
-                'appartment' => 'nullable|integer|min:1|max:99',
-                'start_date' => 'required|date',
-                'duration' => 'required|string|in:3/12,6/12,12,24',
-                'amount' => 'required|numeric|min:0',
-            ]);
 
-            // dd($formFeilds);
-            
-            // Calculate end date based on selected duration
-            $duration = Carbon::parse($formFeilds['start_date'])->addMonths(substr($formFeilds['duration'], 0, 1) * 3);
+public function store(Request $request)
+{
+    $formFeilds = $request->validate([
+        'tenant_name' => 'required|string|max:255',
+        'house' => 'required|string|in:A,B,C,S',
+        'appartment' => 'nullable|integer|min:1|max:99',
+        'start_date' => 'required|date',
+        'duration' => 'required|string|in:3/12,6/12,12,24',  
+        'amount' => 'required|numeric|min:0',
+    ]);
 
+    // Convert the selected option to the corresponding number of months
+    $durationMapping = [
+        '3/12' =>   3,
+        '6/12' =>   6,
+        '12' =>   12,
+        '24' =>   24,
+    ];
+    $formFeilds['duration'] = $durationMapping[$formFeilds['duration']];
 
-            // check for existing customer
-            $existingTenant = Tennants::where(['house' => $formFeilds['house'], 'appartment' => $formFeilds['appartment']])
-            ->whereBetween('start_date', [$formFeilds['start_date'], $duration])
-            ->first();
+    // Calculate end date based on selected duration
+    $endDate = Carbon::parse($formFeilds['start_date'])->addMonths($formFeilds['duration'])->toDateString();
 
-            if (!empty($existingTenant)) {
-                return redirect()->back()->with('error', 'The selected apartment is currently occupied between the given dates. Please select different dates or choose a vacant apartment.');
-            }              
-            Tennants::create($formFeilds);
-        
-            return  redirect()->back()->with('success', 'Tenant added successfully');        
+    // Check for existing customer
+    $existingTenant = tennants::where(['house' => $formFeilds['house'], 'appartment' => $formFeilds['appartment']])
+        ->whereBetween('start_date', [$formFeilds['start_date'], $endDate])
+        ->first();
+
+    if (!empty($existingTenant)) {
+        return redirect()->back()->with('error', 'The selected apartment is currently occupied between the given dates. Please select different dates or choose a vacant apartment.');
     }
-    
+
+    // Add the end_date to the form fields array before creating the tenant
+    $formFeilds['end_date'] = $endDate;
+
+    Tennants::create($formFeilds);
+
+    return redirect()->back()->with('success', 'Tenant added successfully');
+}
+
+        
     // STORE TENNAT FORM DATA
     public function tennants()
     {
