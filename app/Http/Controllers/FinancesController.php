@@ -3,29 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tennants;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FinancesController extends Controller
 {
     public function getFinancialData(Request $request)
     {
-        // Initialize the query builder
         $query = Tennants::query();
-
-        // Apply search/filter if a search term is provided
+    
         if ($request->has('search')) {
             $query->where('tenant_name', 'like', '%' . $request->search . '%')
                   ->orWhere('house', 'like', '%' . $request->search . '%');
         }
-
-        // Apply pagination
+    
         $tennants = $query->paginate(15);
-
-        // Calculate the total amount collected from all tenants
-        // Note: This should ideally be calculated from the filtered/searched tenants, not all tenants
         $totalAmounts = $tennants->sum('amount');
-
-        // Pass the data to the view
-        return view('pages.finances', compact('tennants', 'totalAmounts'));
+    
+        // Prepare data for the chart
+        $year = Carbon::now()->year;
+        $months = [];
+        $totals = [];
+    
+        for ($month =  1; $month <=  12; $month++) {
+            $startOfMonth = Carbon::create($year, $month,  1);
+            $endOfMonth = $startOfMonth->copy()->endOfMonth();
+    
+            $totalForMonth = Tennants::whereBetween('created_at', [$startOfMonth, $endOfMonth])->sum('amount');
+    
+            $months[] = $startOfMonth->format('M');
+            $totals[] = $totalForMonth;
+        }
+    
+        return view('pages.finances', compact('tennants', 'totalAmounts', 'months', 'totals'));
     }
 }

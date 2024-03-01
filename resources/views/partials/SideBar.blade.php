@@ -1,7 +1,19 @@
 <aside class="flex flex-col lg:w-64 w-16  h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"> 
-    <a href="#">
-      <img class="lg:w-auto lg:h-32 sm:h-14 sm:w-14" src="{{ url('/rentals.png') }}" alt="">
-  </a>
+    <div class="lg:flex lg:items-center lg:justify-between relative">
+        <!-- Image Container -->
+        <div class="lg:flex lg:justify-start">
+            <a href="#">
+                <img class="lg:w-auto lg:h-32 sm:w-26 sm:h-auto" src="{{ url('/rentals.png') }}" alt="">
+            </a>
+        </div>
+        <!-- Menu Bar Container -->
+        <div class="lg:flex lg:justify-end hidden">
+            <span class="w-7 absolute top-0 left-2 float-right ">
+                <i class="fas fa-bars float-right cursor-pointer"></i>
+            </span>
+        </div>
+    </div>
+
 
 
   <div class="flex flex-col justify-between flex-1 mt-16">

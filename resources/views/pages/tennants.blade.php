@@ -30,7 +30,7 @@
                       <tr>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['tenant_name'] }}</td>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['house'] }}</td>
-                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['duration'] }}</td>
+                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $row['end_date'] }}</td>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">&#8373; {{ $row['amount'] }}</td>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               <span class="{{ $row['status'] == 'New' ? 'bg-green-500' : 'bg-red-500' }} w-12 h-6 py-2 px-4 text-white rounded-sm">{{ ucfirst($row['status']) }}</span>
