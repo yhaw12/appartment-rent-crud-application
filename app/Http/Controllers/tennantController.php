@@ -9,40 +9,46 @@ class tennantController extends Controller
 {
     
     public function store(Request $request)
-    {
-        $formFeilds = $request->validate([
-            'tenant_name' => 'required|string|max:255',
-            'house' => 'required|string|in:A,B,C,S',
-            'appartment' => 'nullable|integer|min:1|max:99',
-            'start_date' => 'required|date',
-            'duration' => 'required|string|in:3/12,6/12,12,24',   
-            'amount' => 'required|numeric|min:0',
-        ]);
-    
-        // Convert the selected option to the corresponding number of months
-        $durationMapping = [
-            '3/12' =>   3,
-            '6/12' =>   6,
-            '12' =>   12,
-            '24' =>   24,
-        ];
-        $durationMonths = $durationMapping[$formFeilds['duration']];
-    
-        // Calculate end date based on selected duration
-        $endDate = Carbon::parse($formFeilds['start_date'])->addMonths($durationMonths)->toDateString();
-    
-        // Add the end_date to the form fields array before creating the tenant
-        $formFeilds['end_date'] = $endDate;
-    
-        Tennants::create($formFeilds);
-    
-        // Assuming you're passing this data to a view named 'tenant.index' or similar
-        $tennants = Tennants::all(); // Adjust this query as needed
-        
-        return redirect()->back()->with('success', 'Tenant added successfully');
+{
+    $formFeilds = $request->validate([
+        'tenant_name' => 'required|string|max:255|unique:tennants,tenant_name',
+        'house' => 'required|string|in:A,B,C,S',
+        'appartment' => 'nullable|integer|min:1|max:99',
+        'start_date' => 'required|date',
+        'duration' => 'required|string|in:3/12,6/12,12,24',   
+        'amount' => 'required|numeric|min:0',
+    ]);
 
+    // Convert the selected option to the corresponding number of months
+    $durationMapping = [
+        '3/12' => 3,
+        '6/12' => 6,
+        '12' => 12,
+        '24' => 24,
+    ];
+    $durationMonths = $durationMapping[$formFeilds['duration']];
+
+    // Calculate end date based on selected duration
+    $endDate = Carbon::parse($formFeilds['start_date'])->addMonths($durationMonths);
+
+    // Check if the selected house and apartment are already occupied
+    $occupied = Tennants::where('house', $formFeilds['house'])
+                            ->where('appartment', $formFeilds['appartment'])
+                            ->where('end_date', '>=', Carbon::now())
+                            ->exists();
+
+    if ($occupied) {
+        return redirect()->back()->withErrors(['The selected house and apartment are already occupied.']);
     }
-    
+
+    // Add the end_date to the form fields array before creating the tenant
+    $formFeilds['end_date'] = $endDate;
+
+    Tennants::create($formFeilds);
+
+    return redirect()->back()->with('success', 'Tenant added successfully');
+}
+
         
     // STORE TENNAT FORM DATA
     public function tennants()
@@ -89,26 +95,51 @@ class tennantController extends Controller
         // edit a tennant info
         public function update(Request $request, $id){
             $formFeilds = $request->validate([
-                'tenant_name' => 'required|string|max:255',
+                'tenant_name' => 'required|string|max:255|unique:tennants,tenant_name,' . $id,
                 'start_date' => 'required|date',
                 'duration' => 'required|string|in:3/12,6/12,12,24',
                 'amount' => 'required|numeric|min:0',
             ]);
+        
+            // Convert the selected option to the corresponding number of months
+            $durationMapping = [
+                '3/12' => 3,
+                '6/12' => 6,
+                '12' => 12,
+                '24' => 24,
+            ];
+            $durationMonths = $durationMapping[$formFeilds['duration']];
+        
+            // Calculate end date based on selected duration
+            $endDate = Carbon::parse($formFeilds['start_date'])->addMonths($durationMonths);
+        
+            // Check if the selected house and apartment are already occupied by another tenant
+            $occupied = Tennants::where('house', $formFeilds['house'])
+                                    ->where('appartment', $formFeilds['appartment'])
+                                    ->where('end_date', '>=', Carbon::now())
+                                    ->where('id', '!=', $id) // Exclude the current tenant
+                                    ->exists();
+        
+            if ($occupied) {
+                return redirect()->back()->withErrors(['The selected house and apartment are already occupied.']);
+            }
+        
             $tennant = Tennants::findOrFail($id);
-
+        
             // Update the tenant's attributes
             $tennant->tenant_name = $formFeilds['tenant_name'];
             $tennant->start_date = $formFeilds['start_date'];
             $tennant->duration = $formFeilds['duration'];
             $tennant->amount = $formFeilds['amount'];
-
-            // save the tennant
+            $tennant->end_date = $endDate;
+        
+            // Save the tenant
             $tennant->save();
-             // Redirect the user to the tenants list with a success message
+        
+            // Redirect the user to the tenants list with a success message
             return redirect()->back()->with('success', 'Tenant updated successfully');
-
         }
-
+        
         // DELETE TENNAT ID..
         public function destroy($id){
             $tennant = Tennants::findOrFail($id);

@@ -3,7 +3,7 @@
 @section('content')
 <div id="appartmentList" class="w-full mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 cursor-pointer">
     @foreach ($appartments as $apartment)
-    <div class="card w-full h-auto rounded-lg shadow-lg overflow-hidden transition-transform duration-200 transform hover:scale-105 {{ $apartment->status == 'vacant' ? 'bg-red-200' : 'bg-green-200' }}" onclick="openTenantModal('{{ $apartment->tenant ? $apartment->tenant->tenant_name : '' }}', '{{ $apartment->house }}', '{{ $apartment->number }}', '{{ $apartment->status }}', '{{ $apartment->tenant ? $apartment->tenant->amount : '0.00' }}', '{{ $apartment->tenant ? $apartment->tenant->duration : '' }}')">
+    <div class="card w-full h-auto rounded-lg shadow-lg overflow-hidden transition-transform duration-200 transform hover:scale-105 {{ $apartment->status == 'vacant' ? 'bg-red-200' : 'bg-green-200' }}" onclick="openTenantModal('{{ $apartment->tenant ? $apartment->tenant->tenant_name : '' }}', '{{ $apartment->house }}', '{{ $apartment->number }}', '{{ $apartment->status }}', '{{ $apartment->tenant ? $apartment->tenant->amount : '0.00' }}', '{{ $apartment->tenant ? $apartment->tenant->endDate : '' }}')">
         <div class="card-body p-4">
             <h5 class="card-title text-center text-xl font-bold text-gray-800">{{ $apartment->house }}{{ $apartment->number }}</h5>
             <p class="card-text text-center text-sm text-gray-600">Status: <span class="capitalize">{{ $apartment->status }}</span></p>
@@ -32,7 +32,7 @@
 @endsection
 
 <script>
-    function openTenantModal(tenantName, house, appartmentNumber, status, amountPaid) {
+    function openTenantModal(tenantName, house, appartmentNumber, status, amountPaid, expires) {
         const modalContent = document.getElementById('tenantDetails').querySelector('.text-center');
         if (status === 'vacant') {
             modalContent.innerHTML = '<p class="text-lg font-semibold">No Tenant Found or Available</p>';
@@ -42,7 +42,7 @@
                 <p>House: ${house}</p>
                 <p>Appartment Number: ${appartmentNumber}</p>
                 <p>Amount Paid: &#x20B5;${amountPaid}</p>
-                <p>Rent EXpires:${Expires}</p>
+                <p>Rent Expires:${expires}</p>
             `;
         }
         document.getElementById('tenantDetails').classList.remove('hidden');
