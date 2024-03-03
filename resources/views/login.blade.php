@@ -6,7 +6,7 @@
   @vite('resources/css/app.css')
 </head>
 <body class="w-full h-screen px-20">
-    <div class="h-52 inline-flex items-center justify-end border p-8 ">
+    <div class="h-52 inline-flex items-center justify-end border p-8">
         <span class="text-blue">Don't have an Account </span>
         <a href="{{ url('register') }}" class="text-xs border bg-red-500 text-white p-3 ml-4 float-right">SIGNUP</a>
     </div>

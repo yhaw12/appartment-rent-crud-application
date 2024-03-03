@@ -83,19 +83,54 @@
         data: {
             labels: @json($months), // Pass the months array from your controller
             datasets: [{
-                label: 'Total Amounts Taken',
+                label: 'Total Amounts Received',
                 data: @json($totals), // Pass the totals array from your controller
-                backgroundColor: 'rgba(75,  192,  192,  0.2)',
-                borderColor: 'rgba(75,  192,  192,  1)',
-                borderWidth:  1
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(75, 192, 192, 0.4)',
+                hoverBorderColor: 'rgba(75, 192, 192, 1)'
             }]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+            title: {
+                display: true,
+                text: 'Yearly Finances Overview',
+                fontSize: 20,
+                fontColor: '#000'
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var label = data.labels[tooltipItem.index] || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        var total = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                        label += total + ' USD';
+                        return label;
+                    }
                 }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
             }
         }
     });
+
+        chart.canvas.onclick = function(evt) {
+        const activePoints = chart.getElementsAtEvent(evt);
+        if (activePoints.length > 0) {
+            const clickedDatasetIndex = activePoints[0]._datasetIndex;
+            const clickedElementindex = activePoints[0]._index;
+            const label = chart.data.labels[clickedElementindex];
+            alert(`You clicked on ${label}`);
+            // Here you can add more functionality, like showing more details or redirecting to another page
+        }
+    };
+
 </script>

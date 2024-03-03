@@ -55,13 +55,14 @@
         </a>
 
         <!-- Logout -->
-        <button type="submit">
-            <a class="flex items-center px-4 py-2 mt-32 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" href="/logout">
-                <i class="fas fa-sign-out-alt mr-2"></i> <!-- FontAwesome sign out alt icon -->
-                <span class="mx-4 font-medium sm:hidden xl:block">Logout</span>
-            </a>
-        </button>
-      </nav>
+            <form action="/logout" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="flex items-center px-4 py-2 mt-32 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    <span class="mx-4 font-medium sm:hidden xl:block">Logout</span>
+                </button>
+            </form>
+    </nav>
 
 
   </div>
