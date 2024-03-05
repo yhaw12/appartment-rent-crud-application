@@ -8,8 +8,8 @@
         </div>
         <!-- Menu Bar Container -->
         <div class="lg:flex lg:justify-end hidden">
-            <span class="w-7 absolute top-0 left-2 float-right ">
-                <i class="fas fa-bars float-right cursor-pointer"></i>
+            <span class="w-7 absolute top-0 left-2 float-right cursor-pointer ">
+                <i class="fas fa-bars" id="sidebarIcon"></i>
             </span>
         </div>
     </div>

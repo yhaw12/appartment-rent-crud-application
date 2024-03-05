@@ -11,6 +11,13 @@
         <a href="{{ url('register') }}" class="text-xs border bg-red-500 text-white p-3 ml-4 float-right">SIGNUP</a>
     </div>
     <main class="bg-gray-200 flex items-center justify-center h-screen" style="background-image: url('/public/rental.jpg'); background-size: cover; background-position: center;>
+   /* NOTIFICATION */
+
+   @if (session('success'))
+    <script>
+        showSuccessNotification('{{ session('success') }}');
+    </script>
+@endif
         <title>Login Form</title>
         <div class="bg-white w-full max-w-md mx-auto rounded-lg shadow-md overflow-hidden md:max-w-2xl">
             <div class="md:flex">
@@ -39,6 +46,12 @@
   <footer class="bg-slate-500">
     <!-- Footer content goes here -->
   </footer>
+
+  <!-- Other HTML content -->
+
+<script src="{{ asset('js/notifications.js') }}"></script>
+</body>
+</html>
 </body>
 </html>
 
