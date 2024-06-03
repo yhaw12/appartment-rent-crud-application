@@ -63,10 +63,7 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        showSuccessNotification('You have been logged out successfully!');
-
-
-        return redirect('/login');
+        return redirect('/login')->with('message', 'Successfully Logged Out');
 
     }
 

@@ -1,4 +1,4 @@
-<aside class="flex flex-col lg:w-64 w-16  h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"> 
+<aside class=" flex flex-col lg:w-64 w-16  h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700"> 
     <div class="lg:flex lg:items-center lg:justify-between relative">
         <!-- Image Container -->
         <div class="lg:flex lg:justify-start">

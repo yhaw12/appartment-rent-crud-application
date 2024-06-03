@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
           {
-        Schema::create('tennants', static function (Blueprint $table) {
-            $table->id();
-            $table->string('tenant_name');
-             $table->string('house', 1);
-            $table->integer('appartment')->nullable();
-            $table->dateTime('start_date');
-            $table->integer('duration')->nullable();
-            $table->decimal('amount', 8, 2)->default(0);
-            $table->timestamps();
-
-        });
+            Schema::create('tennants', function (Blueprint $table) {
+                $table->id();
+                $table->string('tenant_name');
+                $table->string('house', 1);
+                $table->integer('appartment')->nullable();
+                $table->date('start_date');
+                $table->integer('duration');
+                $table->date('end_date');
+                $table->decimal('amount', 8, 2)->default(0);
+                $table->timestamps();
+            });
     }
     }
 

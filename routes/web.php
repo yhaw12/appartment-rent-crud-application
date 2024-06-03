@@ -25,7 +25,7 @@ use App\Http\Controllers\UserController;
 // GET METHODS
 
 
- Route::get('/', [DashboardController::class, 'dashboard']);
+ Route::get('/', [DashboardController::class, 'dashboard'])->middleware('auth');
  Route::get('/register', [UserController::class, 'create'])->middleware('guest');
  Route::get('/login',[UserController::class, 'login'])->name('login')->middleware('guest');
  Route::get('/dashboard',[DashboardController::class, 'dashboard'])->middleware('auth');
