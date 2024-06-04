@@ -2,6 +2,8 @@
 
 @section('content')
     <div class=" container mx-auto">
+          
+      
           <div class="mt-6">
             {{-- @if (session()->has('error'))
               <div class="alert alert-danger">
@@ -44,7 +46,7 @@
                               @csrf
                               @method('DELETE')
                               {{-- <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this tennant?')">Delete</button> --}}
-                              <button type="submit" class="w-16 h-8 px-4 py-2 inline-flex items-center justify-center bg-red-500 text-white rounded-sm">Delete</button> 
+                              <button type="submit" class="w-16 h-8 px-4 py-2 inline-flex items-center justify-center bg-red-700 hover:bg-red-700 text-white rounded-sm">Delete</button> 
                             </form>
                               
                           </td>

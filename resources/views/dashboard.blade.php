@@ -5,33 +5,32 @@
 @section('content')
 
     <!-- Membership Statistics Cards -->
- <div class="container mx-auto mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    <!-- Cards -->
-
-    @foreach ($menus as $menu)
-  <div class="bg-white p-4 rounded shadow-lg">
-    <div class="flex items-center">
-        <div class="{{ $menu['color'] }} w-16 h-16 rounded-lg flex items-center justify-center mr-2">
-            <i class="{{ $menu['icon'] }} text-white text-2xl"></i>
+    <div class="container mx-auto mt-8 mr-5 grid grid-cols-2 md:grid-cols-3 gap-4">
+        <!-- Cards -->
+    
+        @foreach ($menus as $menu)
+      <div class="bg-white p-4 rounded shadow-lg">
+        <div class="flex items-center">
+            <div class="{{ $menu['color'] }} w-12 h-12 md:w-16 md:h-16 rounded-lg flex items-center justify-center mr-2">
+                <i class="{{ $menu['icon'] }} text-white text-sm md:text-2xl"></i>
+            </div>
+            <div>
+                <p class="text-gray-800 text-sm md:text-lg">{{ $menu['name'] }}</p>
+                <p class="text-sm md:text-xl font-semibold text-gray-900">{{ $menu['total'] }}</p>
+            </div>
+            </div>
         </div>
-        <div>
-            <p class="text-gray-800">{{ $menu['name'] }}</p>
-            <p class="text-xl font-semibold text-gray-900">{{ $menu['total'] }}</p>
-        </div>
-        </div>
+        @endforeach
     </div>
-    @endforeach
-
-  </div>
+    
   
 
-    <div class="mt-20">    
+    <div class="mt-12">    
         <div class="mt-6">
             <h2 class="text-xl font-semibold text-gray-700 leading-tight">Users</h2>
 
-
-            <div class="max-w-7xl mx-auto px-4 sm:px-8 py-4 overflow-x-auto">
-                <div class="inline-block min-w-full shadow-lg rounded-lg overflow-hidden">
+            <div class="max-w-7xl mx-auto sm:px-4 py-4 overflow-x-auto">
+                <div class="inline-block min-w-full shadow-lg rounded-sm overflow-hidden">
                     <table class="min-w-full leading-normal">
                         <thead>
                             <tr>
