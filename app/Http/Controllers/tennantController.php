@@ -30,7 +30,9 @@ class tennantController extends Controller
 
     // Calculate the end date based on the start date and duration
     $durationMonths = $durationMapping[$formFields['duration']];
-    // $endDate = Carbon::parse($formFields['start_date'])->addMonths($durationMonths);
+    $formFields['duration'] = $durationMonths;
+    
+      // Calculate the end date based on the start date and duration
     $endDate = Carbon::parse($formFields['start_date'])->addMonths($formFields['duration'])->subDay();
 
     // Check if the selected house and apartment are already occupied

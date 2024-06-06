@@ -1,24 +1,24 @@
 @extends('layout')
 
 @section('content')
-<div class="overflow-auto h-screen">
-    <div class="h-auto mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto container max-w-4xl">
-        <div class="text-center mb-8">
-            <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900">Finances Overview</h2>
+<div class="h-screen w-full outline-2 overflow-y-auto"> <!-- Ensure container is scrollable -->
+    <div class="h-full mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl outline-4 border">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-indigo-900">Finances Overview</h2>
             <p class="mt-1 text-sm md:text-lg text-gray-600">A comprehensive view of all tenant amounts.</p>
         </div>
-    
-        <canvas class="w-full h-64 md:h-96" id="yearlyFinancesChart"></canvas>
-    
-        <div class="mt-8 overflow-x-auto">
-            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+
+        <canvas class="w-full h-32 md:h-40" id="yearlyFinancesChart"></canvas>
+
+        <div class="mt-4 max-h-96 overflow-y-auto"> <!-- Ensure container is scrollable -->
+            <div class="shadow border-b border-gray-200 sm:rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-indigo-50">
                         <tr>
-                            <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">Tenant Name</th>
-                            <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">House</th>
-                            <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">Duration</th>
-                            <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">Amount Paid</th>
+                            <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-indigo-900 uppercase tracking-wider">Tenant Name</th>
+                            <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-indigo-900 uppercase tracking-wider">House</th>
+                            <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-indigo-900 uppercase tracking-wider">Duration</th>
+                            <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-indigo-900 uppercase tracking-wider">Amount Paid</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -42,13 +42,12 @@
                 </table>
             </div>
         </div>
-    
+
         <div class="mt-8 flex justify-end">
             <span class="text-sm font-medium text-gray-500">Total Amounts: </span>
-            <span class="ml-2 text-lg font-semibold text-gray-700">{{ $totalAmounts }}</span>
+            <span class="ml-2 text-lg font-semibold text-indigo-700">{{ $totalAmounts }}</span>
         </div>
     </div>
-    
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -62,21 +61,28 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 label: 'Total Amounts Received',
                 data: @json($totals),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                borderColor: 'rgba(99, 102, 241, 1)',
                 borderWidth: 1,
-                hoverBackgroundColor: 'rgba(75, 192, 192, 0.4)',
-                hoverBorderColor: 'rgba(75, 192, 192, 1)',
+                hoverBackgroundColor: 'rgba(99, 102, 241, 0.4)',
+                hoverBorderColor: 'rgba(99, 102, 241, 1)',
             }]
         },
         options: {
+            responsive: true,
             title: {
                 display: true,
                 text: 'Yearly Finances Overview',
-                fontSize: 14,
-                fontColor: '#000'
+                font: {
+                    size: 16,
+                    family: "'Roboto', sans-serif",
+                    weight: 700
+                },
+                color: '#374151'
             },
             tooltips: {
+                mode: 'index',
+                intersect: false,
                 callbacks: {
                     label: function(tooltipItem, data) {
                         var label = data.labels[tooltipItem.index] || '';
@@ -92,9 +98,35 @@ document.addEventListener('DOMContentLoaded', function() {
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        font: {
+                            size: 10,
+                            family: "'Roboto', sans-serif",
+                            weight: 400
+                        },
+                        color: '#6B7280'
+                    },
+                    gridLines: {
+                        display: true,
+                        color: '#E5E7EB'
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        font: {
+                            size: 10,
+                            family: "'Roboto', sans-serif",
+                            weight: 400
+                        },
+                        color: '#6B7280'
+                    },
+                    gridLines: {
+                        display: false
                     }
                 }]
+            },
+            legend: {
+                display: false
             }
         }
     });

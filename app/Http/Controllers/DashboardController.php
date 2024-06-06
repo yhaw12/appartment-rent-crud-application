@@ -78,7 +78,7 @@ class DashboardController extends Controller
                 'tenant_name' => $tennant->tenant_name,
                 'house' => $tennant->house,
                 'appartment' => $tennant->appartment,
-                'duration' => $tennant->duration,
+                'duration' => $tennant->end_date,
                 'status' => $status,
             ];
         }

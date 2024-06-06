@@ -18,7 +18,7 @@
   <div class="flex flex-col justify-between flex-1 mt-16">
       <nav>
               <!-- Dashboard -->
-              <div class="flex items-center justify-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700 cursor-pointer">
+              <div class="flex items-center justify-center px-4 py-2 mt-2 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700 cursor-pointer">
                 <a href="/dashboard" class="flex items-center">
                     <i class="fas fa-home mr-2"></i>
                     <span class="mx-4 font-medium hidden xl:flex">Dashboard</span>

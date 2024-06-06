@@ -1,31 +1,25 @@
 @extends('layout')
 
-
-
 @section('content')
 
     <!-- Membership Statistics Cards -->
-    <div class="container mx-auto mt-8 mr-5 grid grid-cols-2 md:grid-cols-3 gap-4">
-        <!-- Cards -->
-    
+    <div class="container mx-auto mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         @foreach ($menus as $menu)
-      <div class="bg-white p-4 rounded shadow-lg">
-        <div class="flex items-center">
-            <div class="{{ $menu['color'] }} w-12 h-12 md:w-16 md:h-16 rounded-lg flex items-center justify-center mr-2">
-                <i class="{{ $menu['icon'] }} text-white text-sm md:text-2xl"></i>
-            </div>
-            <div>
-                <p class="text-gray-800 text-sm md:text-lg">{{ $menu['name'] }}</p>
-                <p class="text-sm md:text-xl font-semibold text-gray-900">{{ $menu['total'] }}</p>
-            </div>
+        <div class="bg-white p-4 rounded shadow-lg">
+            <div class="flex items-center">
+                <div class="{{ $menu['color'] }} w-12 h-12 md:w-16 md:h-16 rounded-lg flex items-center justify-center mr-2">
+                    <i class="{{ $menu['icon'] }} text-white text-sm md:text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-800 text-sm md:text-lg">{{ $menu['name'] }}</p>
+                    <p class="text-sm md:text-xl font-semibold text-gray-900">{{ $menu['total'] }}</p>
+                </div>
             </div>
         </div>
         @endforeach
     </div>
-    
-  
 
-    <div class="mt-12">    
+    <div class="mt-12">
         <div class="mt-6">
             <h2 class="text-xl font-semibold text-gray-700 leading-tight">Users</h2>
 
@@ -62,10 +56,6 @@
                     </div>
                 </div>
             </div>
-            
+        </div>
     </div>
-
-    
-  </div>
 @endsection
-
