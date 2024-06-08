@@ -1,8 +1,8 @@
 @extends('layout')
 
 @section('content')
-<div class="h-screen w-full outline-2 overflow-y-auto"> <!-- Ensure container is scrollable -->
-    <div class="h-full mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl outline-4 border">
+<div class="h-screen w-full "> 
+    <div class="h-full w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
         <div class="text-center mb-6">
             <h2 class="text-2xl md:text-3xl font-extrabold text-indigo-900">Finances Overview</h2>
             <p class="mt-1 text-sm md:text-lg text-gray-600">A comprehensive view of all tenant amounts.</p>
@@ -10,10 +10,10 @@
 
         <canvas class="w-full h-32 md:h-40" id="yearlyFinancesChart"></canvas>
 
-        <div class="mt-4 max-h-96 overflow-y-auto"> <!-- Ensure container is scrollable -->
+        <div class="mt-16 max-h-96 ">
             <div class="shadow border-b border-gray-200 sm:rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-indigo-50">
+                    <thead class="bg-indigo-100">
                         <tr>
                             <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-indigo-900 uppercase tracking-wider">Tenant Name</th>
                             <th scope="col" class="px-4 py-2 text-xs md:text-sm font-medium text-indigo-900 uppercase tracking-wider">House</th>
@@ -31,7 +31,7 @@
                                 <div class="text-xs md:text-sm text-gray-500">{{ $tenant->house }}</div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <div class="text-xs md:text-sm text-gray-500">{{ $tenant->duration }}</div>
+                                <div class="text-xs md:text-sm text-gray-500">{{ $tenant->duration }} months</div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-xs md:text-sm text-gray-500">
                                 {{ $tenant->amount }}
@@ -43,9 +43,9 @@
             </div>
         </div>
 
-        <div class="mt-8 flex justify-end">
+        <div class="mt-8 mb-32 flex justify-end">
             <span class="text-sm font-medium text-gray-500">Total Amounts: </span>
-            <span class="ml-2 text-lg font-semibold text-indigo-700">{{ $totalAmounts }}</span>
+            <span class="ml-2 mb-12 text-lg font-semibold text-indigo-700">{{ $totalAmounts }}</span>
         </div>
     </div>
 </div>
