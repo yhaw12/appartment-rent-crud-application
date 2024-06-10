@@ -13,7 +13,7 @@
 
             <div class="w-full flex items-center justify-between">
                 <h2 class="text-xl font-semibold text-gray-700 leading-tight">Users</h2>
-                <button id="openModalBtn" class="w-52 h-10 flex items-center bg-green-700 p-2 rounded-md shadow-2 cursor-pointer outline" onclick="openModal()"><i class="fas fa-plus"></i> <h2>Add Tennant</h2></button>
+                <button id="openModalBtn" class="w-32 h-10 flex items-center bg-custom  p-2 rounded-md shadow-2 text-white hover:text-bg-custom hover:bg-slate-50 transition-all duration-300 cursor-pointer" onclick="openModal()"><i class="fas fa-plus"></i> <h2>Add Tennant</h2></button>
 
             </div>
 
@@ -38,7 +38,7 @@
                               <span class="{{ $row['status'] == 'New' ? 'bg-green-500' : 'bg-red-500' }} w-12 h-6 py-2 px-4 text-white rounded-sm">{{ ucfirst($row['status']) }}</span>
                           </td>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <button type="submit" onclick="openEditModal({{$row['id']}})" class="w-16 h-8 px-4 py-2 inline-flex items-center justify-center bg-green-500 text-white rounded-sm">Update</button>
+                            <button type="submit" onclick="openEditModal({{$row['id']}})" class="w-16 h-8 px-4 py-2 inline-flex items-center justify-center bg-custom text-white rounded-sm">Update</button>
  
                                  
                               {{-- DELETE TENNAT --}}
@@ -159,7 +159,9 @@
     </div>
     {{-- UPDATE TENNAT INFO --}}
     <div id="editTenantModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 hidden"> 
-        <form method="POST" action="{{route('tennant.update', ['id'])}}">
+      {{-- <form method="POST" action="{{route('tennant.update', ['id'])}}"> --}}
+      <form method="POST" action="" id="editTenantForm" data-tenant-id="">
+
           @csrf
           @method('PUT')
         <div class="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -237,44 +239,58 @@
   </div>
 @endsection
 
+<style>
+  .bg-custom {
+    background-color: #012561;
+}
+
+</style>
+
 <script>
     function openModal() {
       document.getElementById('addTenantModal').style.display = 'flex';
     }
 
-    function openEditModal(id) {
-      document.getElementById('editTenantModal').style.display = 'flex';
-      // You can also pass the id to the form if you need it
-      document.getElementById('editTenantModal').querySelector('form').action = `{{route('tennant.update', ['id'])}}`.replace('id', id);
+    function closeModals() {
+      document.getElementById('addTenantModal').style.display = 'none';
+      document.getElementById('editTenantModal').style.display = 'none';
+    }
+
+    function openEditModal(tenantId) {
+      const form = document.getElementById('editTenantForm');
+      form.dataset.tenantId = tenantId; // Set the tenant ID
+      form.action = `/tennant/update/${tenantId}`; // Update the form action URL
+      document.getElementById('editTenantModal').style.display = 'flex'; // Show the modal
     }
 
     function closeModal() {
-      document.getElementById('addTenantModal').style.display = 'none';
-      document.getElementById('editTenantModal').style.display = 'none';
-    };
+      closeModals(); // Use the unified function to close both modals
+    }
 
+    function closeEditModal() {
+      closeModals(); // Use the unified function to close both modals
+    }
 
     function revealHousingSelection() {
       const housingSelectionContainer = document.getElementById("housingSelectionContainer");
       housingSelectionContainer.classList.toggle("hidden");
     }
 
-    // push the selected to the house View
+    // Push the selected to the house view
     $(document).ready(function() {
-    $('#housingSelect').change(function() {
-         var house = $(this).val();
+      $('#housingSelect').change(function() {
+        var house = $(this).val();
         var apartment = $('#aptNumberInput').val();
 
-            $.ajax({
-                url: '/house/' + house,
-                method: 'GET',
-                data: { house: house, apartment: apartment },
-                success: function(data) {
-                    // Replace the current apartment list with the new one
-                    $('#apartmentList').html(data);
-                }
-            });
+        $.ajax({
+          url: '/house/' + house,
+          method: 'GET',
+          data: { house: house, apartment: apartment },
+          success: function(data) {
+            // Replace the current apartment list with the new one
+            $('#apartmentList').html(data);
+          }
         });
+      });
     });
-
 </script>

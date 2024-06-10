@@ -2,13 +2,13 @@
 
 @section('content')
 
-<div class="relative min-h-screen bg-center bg-cover" style="background-image: url('/appartment1.jpeg');">
+<div class="relative min-h-screen bg-center bg-cover" style="background-image: url('/rent-banner.jpeg');">
     <div class="absolute inset-0 bg-black opacity-50"></div>
     <div class="relative z-10 flex items-center justify-center min-h-screen">
         <div class="w-full h-auto mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 cursor-pointer">
 
             @foreach ($appartments as $apartment)
-            <div class="card w-full h-auto rounded-lg shadow-lg overflow-hidden transition-transform duration-300 transform hover:scale-105 {{ $apartment->status == 'vacant' ? 'bg-red-300' : 'bg-green-300' }}" onclick="openTenantModal('{{ $apartment->tenant ? $apartment->tenant->tenant_name : '' }}', '{{ $apartment->house }}', '{{ $apartment->number }}', '{{ $apartment->status }}', '{{ $apartment->tenant ? $apartment->tenant->amount : '0.00' }}', '{{ $apartment->tenant ? $apartment->tenant->endDate : '' }}')">
+            <div class="card w-full h-auto rounded-lg shadow-lg overflow-hidden transition-transform duration-300 transform hover:scale-105 {{ $apartment->status == 'vacant' ? 'bg-red-300' : 'bg-green-300' }}" onclick="openTenantModal('{{ $apartment->tenant ? $apartment->tenant->tenant_name : '' }}', '{{ $apartment->house }}', '{{ $apartment->number }}', '{{ $apartment->status }}', '{{ $apartment->tenant ? $apartment->tenant->amount : '0.00' }}', '{{ $apartment->tenant ? $apartment->tenant->end_date : '' }}')">
                 <div class="card-body p-6">
                     <h5 class="card-title text-center text-2xl font-bold text-gray-800">{{ $apartment->house }}{{ $apartment->number }}</h5>
                     <p class="card-text text-center text-base text-gray-700 mt-2">Status: <span class="capitalize">{{ $apartment->status }}</span></p>
@@ -45,7 +45,7 @@
             modalContent.innerHTML = '<p class="text-lg font-semibold">No Tenant Found or Available</p>';
         } else {
             modalContent.innerHTML = `
-                <p class="text-lg font-semibold">Tenant Name: ${tenantName}</p>
+                <p>Tenant Name: ${tenantName}</p>
                 <p>House: ${house}</p>
                 <p>Appartment Number: ${appartmentNumber}</p>
                 <p>Amount Paid: &#x20B5;${amountPaid}</p>
@@ -59,3 +59,7 @@
         document.getElementById('tenantDetails').classList.add('hidden');
     }
 </script>
+
+
+
+

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
@@ -10,10 +9,10 @@ class DashboardController extends Controller
 {
     public function dashboard(){
         // Calculate the total number of apartments in each house
-        $houseA = collect(range(21,   30))->count();
-        $houseB = collect(range(1,   12))->count();
-        $houseC = collect(range(1,   9))->count();
-        $houseS = collect(range(1,   5))->count();
+        $houseA = collect(range(21, 30))->count();
+        $houseB = collect(range(1, 12))->count();
+        $houseC = collect(range(1, 9))->count();
+        $houseS = collect(range(1, 5))->count();
 
         // Calculate the total number of apartments
         $totalApartments = $houseA + $houseB + $houseC + $houseS;
@@ -25,8 +24,7 @@ class DashboardController extends Controller
         $totalVacant = $totalApartments - $totalOccupied; 
 
         // Calculate the total number of tenants whose rent is about to expire within the next  3 months
-        $expiringSoon = Tennants::where('duration', '<=', Carbon::now()->addMonths(3))
-            ->where('duration', '>', Carbon::now())
+        $expiringSoon = Tennants::whereBetween('end_date', [Carbon::now(), Carbon::now()->addMonths(3)])
             ->count();
 
         // Dashboard Cards data Object
@@ -71,15 +69,22 @@ class DashboardController extends Controller
         ];
 
         foreach ($tennants as $tennant) {
-            $status = $tennant->duration <= $tennant->start_date  ? 'Expiring' : 'New';
-            $statusColor = $status === 'Expiring' ? 'bg-red-500' : 'bg-green-500';        
+            // Determine the status based on the end date
+            $now = Carbon::now();
+            $endDate = Carbon::parse($tennant->end_date);
+            $monthsUntilExpiration = $endDate->diffInMonths($now);
+
+            $status = $monthsUntilExpiration > 3 ? 'New' : 'Expiring';
+            $statusColor = $status === 'Expiring' ? 'bg-red-500' : 'bg-green-500';
+
             $tableData['rows'][] = [
                 'id' => $tennant->id,
                 'tenant_name' => $tennant->tenant_name,
                 'house' => $tennant->house,
                 'appartment' => $tennant->appartment,
-                'duration' => $tennant->end_date,
+                'duration' => $endDate->format('Y-m-d'), // Format the date to remove the time
                 'status' => $status,
+                'status_color' => $statusColor, // Include the status color in the row data
             ];
         }
 

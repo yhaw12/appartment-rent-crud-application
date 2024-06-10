@@ -34,16 +34,17 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @foreach ($tableData['rows'] as $row)
-                    <tr class="{{ $loop->even ? 'bg-gray-50' : 'bg-white' }} hover:bg-gray-100">
+                    <tr class="{{ $loop->even? 'bg-gray-50' : 'bg-white' }} hover:bg-gray-100">
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['tenant_name'] }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['house'] }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['appartment'] }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ $row['duration'] }}</td>
                         <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                            <span class="{{ $row['status'] == 'New' ? 'bg-green-500' : 'bg-red-500' }} inline-block w-16 py-1 px-3 text-white rounded-full text-center">{{ ucfirst($row['status']) }}</span>
+
+                            <span class="{{ $row['status_color'] }} inline-block w-16 py-1 px-3 text-white rounded-full text-center">{{ ucfirst($row['status']) }}</span>
                         </td>
                     </tr>
-                @endforeach
+                    @endforeach
             </tbody>
         </table>
         <div class="px-5 py-5 bg-gray-100 border-t flex flex-col xs:flex-row items-center xs:justify-between">

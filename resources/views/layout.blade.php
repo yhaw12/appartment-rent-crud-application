@@ -21,12 +21,21 @@
         <div class="flex-1 overflow-x-hidden overflow-y-auto p-4">
           @yield('content')
         </div>
+
+        {{-- <div class="w-full h-6 flex items-center justify-center mt-4 bg-custom">
+          <h2 class="text-center  text-white"> Design by  Blankson Obeng </h2>
+        </div> --}}
     </div>
+   
   </div>
+  
   <style>
     /* Customize the position and styles of alerts */
     #swal2-container {
       z-index: 9999 !important;
+    }
+    .bg-custom {
+       background-color: #1f2937;
     }
   </style>
   {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -40,3 +49,4 @@
 
 </body>
 </html>
+

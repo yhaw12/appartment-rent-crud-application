@@ -31,7 +31,15 @@
                                 <div class="text-xs md:text-sm text-gray-500">{{ $tenant->house }}</div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <div class="text-xs md:text-sm text-gray-500">{{ $tenant->duration }} months</div>
+                                <div class="text-xs md:text-sm text-gray-500">
+                                    @if($tenant->duration == 12)
+                                        1 year
+                                    @elseif($tenant->duration == 24)
+                                        2 years
+                                    @else
+                                        {{ $tenant->duration }} months
+                                    @endif
+                                </div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-xs md:text-sm text-gray-500">
                                 {{ $tenant->amount }}

@@ -9,6 +9,9 @@ use App\Http\Controllers\tennantController;
 use App\Http\Controllers\tennantsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotificationController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 // use Illuminate\Auth\Events\Login;
 
 /*
@@ -36,6 +39,13 @@ use App\Http\Controllers\UserController;
  Route::get('/tennants',[tennantController::class, 'tennants'])->middleware('auth');
  Route::get('/tenant/{house}/{number}', [HouseController::class, 'getTenant'])->middleware('auth');
  Route::get('/finances', [FinancesController::class, 'getFinancialData'])->middleware('auth');
+
+ Route::get('/notifications/count', [NotificationController::class, 'count']);
+
+ Route::get('/send-test-email', function () {
+    Mail::to('yawoben21@gmail.com')->send(new TestMail());
+    return 'Test email sent!';
+});
 
 
 

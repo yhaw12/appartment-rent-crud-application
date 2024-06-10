@@ -2,12 +2,12 @@
 
 namespace App\Console;
 
-use App\Mail\RentExpirationReminder;
+use App\Notifications\RentExpirationReminder;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Carbon\Carbon;
 use App\Models\Tennants;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,18 +16,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        
-
         $schedule->call(function () {
-            $threeMonthsFromNow = Carbon::now()->addMonths(3);
-
-            $expiringTennants = Tennants::where('end_date', '<=', $threeMonthsFromNow)
-                                         ->where('end_date', '>', Carbon::now())
-                                         ->get();
+            $tennants = Tennants::where('end_date', '>=', Carbon::now()->addMonths(2))
+                              ->where('end_date', '<=', Carbon::now()->addMonths(3))
+                              ->get();
     
-            foreach ($expiringTennants as $tennant) {
-                // Send the email to the administrator
-                Mail::to('yooxing11@gmail.com')->send(new RentExpirationReminder($tennant));
+            foreach ($tennants as $tenant) {
+                Notification::send($tenant, new RentExpirationReminder($tenant));
             }
         })->daily();
     }
@@ -40,7 +35,5 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
-    }
-
-    
+    }    
 }
