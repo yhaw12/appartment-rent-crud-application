@@ -43,8 +43,8 @@ use App\Mail\TestMail;
  Route::get('/notifications/count', [NotificationController::class, 'count']);
 
  Route::get('/send-test-email', function () {
-    Mail::to('yawoben21@gmail.com')->send(new TestMail());
-    return 'Test email sent!';
+    Mail::to('elvisobeng51@gmail.com')->send(new TestMail());
+    return 'Test email sent!  ddddddddddddddddddddddddd';
 });
 
 

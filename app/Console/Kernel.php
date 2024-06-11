@@ -8,6 +8,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Carbon\Carbon;
 use App\Models\Tennants;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Config;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,13 +18,17 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
+            $landlordEmail = Config::get('MAIL.LANDLORD_EMAIL');
+            
             $tennants = Tennants::where('end_date', '>=', Carbon::now()->addMonths(2))
                               ->where('end_date', '<=', Carbon::now()->addMonths(3))
                               ->get();
     
             foreach ($tennants as $tenant) {
-                Notification::send($tenant, new RentExpirationReminder($tenant));
+                Notification::route('mail', $landlordEmail)
+                ->notify(new RentExpirationReminder($tenant));
             }
+                    
         })->daily();
     }
 
