@@ -56,7 +56,8 @@ class DashboardController extends Controller
         ];
 
         // DataTable Array
-        $tennants = Tennants::all();
+       
+        $tennants = Tennants::orderBy('created_at', 'desc')->get();
         $tableData = [
             'headers' => [
                 'Tennant',
@@ -69,22 +70,31 @@ class DashboardController extends Controller
         ];
 
         foreach ($tennants as $tennant) {
-            // Determine the status based on the end date
-            $now = Carbon::now();
+            $startDate = Carbon::parse($tennant->start_date);
             $endDate = Carbon::parse($tennant->end_date);
-            $monthsUntilExpiration = $endDate->diffInMonths($now);
+    
+            $remainingMonths = $startDate->diffInMonths($endDate);
 
-            $status = $monthsUntilExpiration > 3 ? 'New' : 'Expiring';
-            $statusColor = $status === 'Expiring' ? 'bg-red-500' : 'bg-green-500';
+    // Adjust the status based on the sign of monthsDifference
+    if ($remainingMonths >= 0 && $remainingMonths <= 3 ) { 
+        $status = 'Expiring Soon';
+        $statusColor = 'bg-red-500';
+    } elseif ($remainingMonths < 0) { 
+        $status = 'Expired';
+        $statusColor = 'bg-gray-500'; 
+    } else { 
+        $status = 'New';
+        $statusColor = 'bg-green-500';
+    }
 
             $tableData['rows'][] = [
                 'id' => $tennant->id,
                 'tenant_name' => $tennant->tenant_name,
                 'house' => $tennant->house,
                 'appartment' => $tennant->appartment,
-                'duration' => $endDate->format('Y-m-d'), // Format the date to remove the time
+                'duration' => $endDate->format('Y-m-d'), 
                 'status' => $status,
-                'status_color' => $statusColor, // Include the status color in the row data
+                'status_color' => $statusColor, 
             ];
         }
 

@@ -46,7 +46,8 @@ class tennantController extends Controller
                         ->exists();
 
     if ($occupied) {
-        return redirect()->back()->withErrors(['The selected house and apartment are already occupied.']);
+        // return redirect()->back()->withErrors(['The selected house and apartment are already occupied.']);
+        return response()->json(['occupied' => true], 409);
     }
 
     // Add the end date to the form fields before creating the tenant
@@ -55,8 +56,7 @@ class tennantController extends Controller
     // Create the tenant
     Tennants::create($formFields);
 
-    return redirect()->back()->with('success', 'Tenant added successfully');
-    
+    return response()->json(['success' => true]);
     
 }
 
@@ -66,37 +66,40 @@ class tennantController extends Controller
         $tennants = Tennants::all();
     
         $tableData = [
-            'headers' => [
-                'Tennant',
-                'House',
-                'Ending Date',
-                'Amount Paid',
-                'Status',
-                'Action'
-            ],
-            'rows' => []
+        'headers' => [
+            'Tennant',
+            'House',
+            'Ending Date',
+            'Amount Paid',
+            'Status',
+            'Action'
+        ],
+        'rows' => []
+    ];
+
+    foreach ($tennants as $tennant) {
+        // Assuming the duration is stored in a format like '3/12' for 3 months
+        $durationParts = explode('/', $tennant->duration);
+        $durationMonths = isset($durationParts[0]) ? (int) $durationParts[0] : 0;
+
+        $endDate = Carbon::parse($tennant->start_date)->addMonths($durationMonths)->toDateString();
+
+        $status = Carbon::parse($endDate)->lt(Carbon::now()) ? 'Expired' : 'New';
+
+        $tableData['rows'][] = [
+            'id' => $tennant->id,
+            'tenant_name' => $tennant->tenant_name,
+            'house' => $tennant->house,
+            'end_date' => $endDate,
+            'amount' => $tennant->amount,
+            'status' => $status,
+            'action' => "Update|Delete",
         ];
-    
-        foreach ($tennants as $tennant) {
-            // Assuming the duration is stored in a format like '3/12' for  3 months
-            $durationMonths = explode('/', $tennant->duration)[0];
-            $endDate = Carbon::parse($tennant->start_date)->addMonths($durationMonths)->toDateString();
-    
-            $status = Carbon::parse($endDate)->lt(Carbon::now()) ? 'Expired' : 'New';
-            // $statusColor = $status === 'Expired' ? 'bg-red-500' : 'bg-green-500';        
-    
-            $tableData['rows'][] = [
-                'id' => $tennant->id,
-                'tenant_name' => $tennant->tenant_name,
-                'house' => $tennant->house,
-                'end_date' => $endDate, 
-                'amount' => $tennant->amount,
-                'status' => $status,
-                'action' => "Update|Delete",
-            ];
-        }
-    
-        return view('pages.tennants', ['tableData' => $tableData]);
+    }
+
+
+
+    return view('pages.tennants', ['tableData' => $tableData]);
 
     }
 
@@ -136,9 +139,6 @@ class tennantController extends Controller
         }
         
 
-        
-
-        
         // DELETE TENNAT ID..
         public function destroy($id){
             $tennant = Tennants::findOrFail($id);

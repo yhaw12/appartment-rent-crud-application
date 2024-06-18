@@ -5,12 +5,7 @@
           
       
           <div class="mt-6">
-            {{-- @if (session()->has('error'))
-              <div class="alert alert-danger">
-                {{ session()->get('error') }}
-              </div>
-            @endif  --}}
-
+            
             <div class="w-full flex items-center justify-between">
                 <h2 class="text-xl font-semibold text-gray-700 leading-tight">Users</h2>
                 <button id="openModalBtn" class="w-32 h-10 flex items-center bg-custom  p-2 rounded-md shadow-2 text-white hover:text-bg-custom hover:bg-slate-50 transition-all duration-300 cursor-pointer" onclick="openModal()"><i class="fas fa-plus"></i> <h2>Add Tennant</h2></button>
@@ -56,7 +51,7 @@
                     </tbody>
                 </table>
                     <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-                        <span class="text-xs xs:text-sm text-gray-900">Showing 1 to 4 of 50 Entries</span>
+                        <span class="text-xs xs:text-sm text-gray-900">Showing 1 to 5 of 50 Entries</span>
 
                         <div class="inline-flex mt-2 xs:mt-0">
                             <button class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l">Prev</button>
@@ -258,17 +253,17 @@
 
     function openEditModal(tenantId) {
       const form = document.getElementById('editTenantForm');
-      form.dataset.tenantId = tenantId; // Set the tenant ID
-      form.action = `/tennant/update/${tenantId}`; // Update the form action URL
-      document.getElementById('editTenantModal').style.display = 'flex'; // Show the modal
+      form.dataset.tenantId = tenantId; 
+      form.action = `/tennant/update/${tenantId}`; 
+      document.getElementById('editTenantModal').style.display = 'flex'; 
     }
 
     function closeModal() {
-      closeModals(); // Use the unified function to close both modals
+      closeModals(); 
     }
 
     function closeEditModal() {
-      closeModals(); // Use the unified function to close both modals
+      closeModals(); 
     }
 
     function revealHousingSelection() {
@@ -293,4 +288,72 @@
         });
       });
     });
+
 </script>
+
+
+{{-- SWEETALERT --}}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('submitBtn').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const form = event.target.closest('form');
+        const formData = new FormData(form);
+        
+        fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+            },
+            body: formData,
+        })
+        .then(response => response.json().then(data => ({
+            status: response.status,
+            body: data
+        })))
+        .then(({status, body}) => {
+            if (status === 409) {
+                if (body.occupied) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Occupied',
+                        text: 'The selected house and apartment are already occupied.',
+                    });
+                }
+            } else if (status >= 200 && status < 300) {
+                if (body.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Tenant added successfully.',
+                        toast: true,
+                        position: 'top-right',
+                        timer: 3000,
+                        timeProgressBar: true,
+                        showConfirmButton: false,
+                        width: '350px',
+                        padding: '10px'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
+            } else {
+                throw new Error('Unexpected response');
+               
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred. Please try again.',
+            });
+            window.loaction.reload()
+        });
+    });
+});
+
+</script>
+

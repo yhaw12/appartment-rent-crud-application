@@ -6,12 +6,10 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\tennantController;
-use App\Http\Controllers\tennantsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\NotificationController;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\TestMail;
+// use App\Http\Controllers\NotificationController;
+
 // use Illuminate\Auth\Events\Login;
 
 /*
@@ -28,6 +26,7 @@ use App\Mail\TestMail;
 // GET METHODS
 
 
+
  Route::get('/', [DashboardController::class, 'dashboard'])->middleware('auth');
  Route::get('/register', [UserController::class, 'create'])->middleware('guest');
  Route::get('/login',[UserController::class, 'login'])->name('login')->middleware('guest');
@@ -40,13 +39,9 @@ use App\Mail\TestMail;
  Route::get('/tenant/{house}/{number}', [HouseController::class, 'getTenant'])->middleware('auth');
  Route::get('/finances', [FinancesController::class, 'getFinancialData'])->middleware('auth');
 
- Route::get('/notifications/count', [NotificationController::class, 'count']);
+//  Route::get('/notifications/count', [NotificationController::class, 'count']);
 
- Route::get('/send-test-email', function () {
-    Mail::to('elvisobeng51@gmail.com')->send(new TestMail());
-    return 'Test email sent!  ddddddddddddddddddddddddd';
-});
-
+ 
 
 
 
