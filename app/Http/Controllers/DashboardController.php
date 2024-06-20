@@ -71,30 +71,33 @@ class DashboardController extends Controller
 
         foreach ($tennants as $tennant) {
             $startDate = Carbon::parse($tennant->start_date);
-            $endDate = Carbon::parse($tennant->end_date);
-    
-            $remainingMonths = $startDate->diffInMonths($endDate);
+    $endDate = Carbon::parse($tennant->end_date);
 
-    // Adjust the status based on the sign of monthsDifference
-    if ($remainingMonths >= 0 && $remainingMonths <= 3 ) { 
+    // Determine remaining months between start and end date
+    $remainingMonths = $startDate->diffInMonths($endDate);
+
+    // Check if the lease is upcoming or currently active
+    if ($remainingMonths >= 0 && $remainingMonths <= 3) {
         $status = 'Expiring Soon';
         $statusColor = 'bg-red-500';
-    } elseif ($remainingMonths < 0) { 
+    } elseif ($endDate->lt(Carbon::now())) {
+        // Handle cases where the lease has already expired
         $status = 'Expired';
-        $statusColor = 'bg-gray-500'; 
-    } else { 
+        $statusColor = 'bg-gray-500'; // Use a different color to indicate expired leases
+    } else {
+        // For leases that are more than 3 months away
         $status = 'New';
         $statusColor = 'bg-green-500';
     }
 
-            $tableData['rows'][] = [
+    $tableData['rows'][] = [
                 'id' => $tennant->id,
                 'tenant_name' => $tennant->tenant_name,
                 'house' => $tennant->house,
                 'appartment' => $tennant->appartment,
-                'duration' => $endDate->format('Y-m-d'), 
+                'duration' => $endDate->format('Y-m-d'), // Format the date to remove the time
                 'status' => $status,
-                'status_color' => $statusColor, 
+                'status_color' => $statusColor, // Include the status color in the row data
             ];
         }
 
