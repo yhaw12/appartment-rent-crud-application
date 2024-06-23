@@ -1,67 +1,142 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
  
-<nav class="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
-  <div class="flex w-full flex-wrap items-center justify-between px-3">
-    
-    {{-- breadcrumb --}}
-    <div class="">
-      <x-breadcrumb :items="[
-          ['name' => 'Home', 'url' => '/'],
-          ['name' => 'Dashboard', 'url' => '/dashboard'],
-          ['name' => 'Finances', 'url' => '/finances'],
-          ['name' => 'HouseA', 'url' => '/house/a']
-      ]" />
-    </div>
-  
-    <!-- Right elements -->
-    <div class="relative flex items-center">
-      <div>
-        <!-- First dropdown trigger -->
-        <a class="hidden-arrow mr-4 flex items-center text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-           href="#">
-          <!-- Dropdown trigger icon -->
-          <span class="[&>svg]:w-5">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-7 w-7">
-              <path d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
-                    clip-rule="evenodd" />
-            </svg>
-          </span>
-          <!-- Notification counter -->
-          <span id="notification-counter" class="absolute -mt-4 ml-2.5 rounded-full bg-danger px-[0.35em] py-[0.15em] text-[0.6rem] font-bold leading-none text-white">
-            1
-          </span>
-        </a>
+<nav class="bg-white dark:bg-gray-700 shadow-md py-4">
+  <div class="container mx-auto flex justify-between items-center px-4">
+      <!-- Breadcrumb and other navigation items -->
+      <div class="flex items-center space-x-4">
+          <x-breadcrumb :items="[
+              ['name' => 'Home', 'url' => '/'],
+              ['name' => 'Dashboard', 'url' => '/dashboard'],
+              ['name' => 'Finances', 'url' => '/finances'],
+              ['name' => 'Tenants', 'url' => '/tennants'],
+              ['name' => 'HouseA', 'url' => '/house/a'],
+              ['name' => 'HouseB', 'url' => '/house/b'],
+              ['name' => 'HouseC', 'url' => '/house/c'],
+              ['name' => 'HouseS', 'url' => '/house/s'],
+          ]" />
       </div>
+      <!-- Right elements -->
+      <div class="flex items-center space-x-4">
+          <!-- Notification Dropdown -->
+          <div class="relative">
+              <button id="notificationButton" class="relative text-gray-700 dark:text-gray-200 focus:outline-none">
+                  <i class="fa fa-bell"></i>
+                  <span id="notification-count" class="absolute top-0 right-0 inline-block w-3 h-3 bg-red-600 rounded-full text-xs text-white text-center" style="display: none;"></span>
+              </button>
+              <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50">
+                  <div class="py-2">
+                      <div class="px-4 py-2 text-sm text-gray-700 dark:text-gray-200">Notifications</div>
+                      <div id="notification-list">
+                          <!-- Notifications will be dynamically inserted here -->
+                      </div>
+                      <div class="border-t border-gray-200 dark:border-gray-700"></div>
+                      <a href="#" id="mark-all-read" class="block px-4 py-2 text-sm text-center text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                          Mark all as read
+                      </a>
+                  </div>
+              </div>
+          </div>
 
-      <div>
-        <a class="hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none"
-           href="#">
-          <!-- User avatar -->
-          <img src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
-               class="rounded-full"
-               style="height: 25px; width: 25px"
-               alt=""
-               loading="lazy" />
-        </a>
+          <!-- User Avatar -->
+          <div>
+              <a href="#" class="flex items-center focus:outline-none">
+                  <img src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg" class="rounded-full h-6 w-6" alt="User Avatar">
+              </a>
+          </div>
       </div>
-    </div>
   </div>
 </nav>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const notificationCounter = document.getElementById('notification-counter');
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    function updateNotificationCount() {
-      fetch('/notifications/count')
-        .then(response => response.json())
-        .then(data => {
-          notificationCounter.textContent = data.count;
-        })
-        .catch(error => console.error('Error fetching notification count:', error));
+<script>
+  $(document).ready(function() {
+    function fetchNotifications() {
+    $.ajax({
+      url: '/notifications',
+      method: 'GET',
+      success: function(response) {
+        var unreadCount = response.length;
+        $('#notification-count').text(unreadCount);
+        $('#notification-count').toggle(unreadCount > 0);
+        
+        var notificationList = $('#notification-list');
+        notificationList.empty();
+        
+        if (unreadCount > 0) {
+          response.forEach(function(notification) {
+            var message = '';
+            if (notification.data.reminder_type) {
+              switch(notification.data.reminder_type) {
+                case 'three_months':
+                  message = `${notification.data.tenant_name}'s lease expires in 3 months`;
+                  break;
+                case 'one_month':
+                  message = `${notification.data.tenant_name}'s lease expires in 1 month`;
+                  break;
+                case 'one_week':
+                  message = `${notification.data.tenant_name}'s lease expires in 1 week`;
+                  break;
+                default:
+                  message = `${notification.data.tenant_name}'s lease is expiring soon`;
+              }
+            } else {
+              message = notification.data.message || 'Lease expiration notification';
+            }
+            
+            notificationList.append(`
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                ${message}
+                <small class="block text-gray-500 dark:text-gray-400">${moment(notification.created_at).fromNow()}</small>
+              </a>
+            `);
+          });
+        } else {
+          notificationList.append('<div class="px-4 py-2 text-sm text-gray-700 dark:text-gray-200">No unread notifications.</div>');
+        }
+      }
+    });
     }
 
-    updateNotificationCount();
-    setInterval(updateNotificationCount, 60000); 
+    // Toggle dropdown menu
+    $('#notificationButton').click(function(e) {
+      e.stopPropagation();
+      $('#notificationDropdown').toggleClass('hidden');
+    });
+
+    // Close the dropdown if clicked outside
+    $(document).click(function(e) {
+      if (!$(e.target).closest('#notificationDropdown, #notificationButton').length) {
+        $('#notificationDropdown').addClass('hidden');
+      }
+    });
+
+    // Mark all as read
+    $('#mark-all-read').click(function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: '/notifications/mark-all-read', // Updated URL
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function(response) {
+        if (response.success) {
+          fetchNotifications(); // Refresh notifications after marking all as read
+          console.log('All notifications marked as read');
+        } else {
+          console.error('Failed to mark notifications as read');
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error('Error marking notifications as read:', error);
+      }
+    });
+  });
+
+    // Fetch notifications on page load and every 5 minutes
+    fetchNotifications();
+    setInterval(fetchNotifications, 300000);
   });
 </script>

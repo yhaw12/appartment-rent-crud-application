@@ -3,7 +3,7 @@
         <!-- Image Container -->
         <div class="lg:flex lg:justify-start">
             <a href="#">
-                <img class="lg:w-auto lg:h-auto sm:w-auto sm:h-auto" src="{{ url('/rentals.png') }}" alt="">
+                <img class="lg:w-auto lg:h-auto sm:w-auto sm:h-auto" src="{{ url('/rent.png') }}" alt="">
             </a>
         </div>
         <!-- Menu Bar Container -->
@@ -65,7 +65,8 @@
 
             <!-- Reports -->
             <div class="flex items-center justify-center px-4 py-2 mt-5 mb-12 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-light-blue hover:text-white cursor-pointer" style="color: #012561;">
-                <a href="#" class="flex items-center">
+                <a href="/occupancy-rate
+                " class="flex items-center">
                     <i class="fas fa-file-alt mr-2 p-2"></i>
                     <span class="mx-4 font-medium hidden lg:block">Reports</span>
                 </a>
